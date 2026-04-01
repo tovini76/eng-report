@@ -2,160 +2,135 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>전문가용 초등 영어 학습발달상황 생성기</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>초등 영어 학습발달상황 전문가용</title>
     <style>
-        :root { --primary: #1a2a6c; --accent: #b21f1f; --bg: #f8f9fa; }
-        body { font-family: 'Pretendard', 'Malgun Gothic', sans-serif; background: var(--bg); padding: 40px; color: #2c3e50; line-height: 1.8; }
-        .container { max-width: 950px; margin: auto; background: white; padding: 50px; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-top: 10px solid var(--primary); }
-        h1 { text-align: center; color: var(--primary); letter-spacing: -1px; margin-bottom: 40px; }
-        .section { margin-bottom: 30px; padding: 25px; border: 1px solid #e9ecef; border-radius: 10px; background: #ffffff; }
-        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 20px; display: block; font-size: 1.1rem; border-left: 5px solid var(--primary); padding-left: 15px; }
-        .input-group { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 20px; }
-        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #dee2e6; border-radius: 8px; font-size: 15px; transition: all 0.3s; }
-        input:focus, select:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(26, 42, 108, 0.1); }
-        .level-selector { display: flex; gap: 12px; margin-top: 10px; }
-        .level-selector button { flex: 1; padding: 14px; border: 1.5px solid #dee2e6; background: #fff; cursor: pointer; border-radius: 8px; font-weight: 600; color: #6c757d; }
-        .level-selector button.active { background: var(--primary); color: white; border-color: var(--primary); }
-        #result-box { background: #fdfdfe; border: 2px solid #e9ecef; padding: 25px; border-radius: 10px; margin-top: 35px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
-        textarea { resize: none; border: none; background: transparent; width: 100%; font-size: 16px; font-weight: 500; color: #34495e; line-height: 1.8; }
-        .btn-main { background: linear-gradient(135deg, #1a2a6c, #b21f1f); color: white; border: none; padding: 20px; width: 100%; border-radius: 10px; font-size: 18px; font-weight: 700; cursor: pointer; margin-top: 25px; transition: transform 0.2s; }
-        .btn-main:hover { transform: translateY(-2px); }
-        .btn-copy { background: #28a745; color: white; border: none; padding: 12px 25px; border-radius: 6px; cursor: pointer; float: right; margin-top: 15px; font-weight: 600; }
-        .byte-info { font-size: 13px; color: #adb5bd; margin-top: 15px; }
+        :root { --primary: #1e3a8a; --secondary: #1e40af; --accent: #dc2626; --bg: #f8fafc; --card: #ffffff; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Pretendard', 'Malgun Gothic', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #1e293b; line-height: 1.6; }
+        
+        /* 모바일 대응 컨테이너 */
+        .container { max-width: 800px; margin: auto; background: var(--card); padding: 25px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 8px solid var(--primary); }
+        h1 { text-align: center; color: var(--primary); font-size: 1.5rem; margin-bottom: 25px; letter-spacing: -1px; }
+        
+        .section { margin-bottom: 20px; }
+        .section-title { font-weight: 700; color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.95rem; border-left: 4px solid var(--primary); padding-left: 10px; }
+        
+        /* 모바일에서 세로로 쌓이게 설정 */
+        .input-grid { display: flex; flex-direction: column; gap: 12px; }
+        @media (min-width: 600px) { .input-grid { flex-direction: row; } .input-grid > * { flex: 1; } }
+        
+        input, select, textarea { width: 100%; padding: 14px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 15px; outline: none; transition: 0.2s; background: #fff; }
+        input:focus, select:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(30, 58, 138, 0.1); }
+        
+        /* 버튼 디자인 개선 */
+        .level-group { display: flex; gap: 8px; margin-top: 5px; }
+        .level-btn { flex: 1; padding: 12px 5px; border: 1.5px solid #e2e8f0; background: #fff; border-radius: 10px; cursor: pointer; font-weight: 600; color: #64748b; font-size: 0.85rem; }
+        .level-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        
+        .btn-generate { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 1.1rem; font-weight: 700; cursor: pointer; margin-top: 20px; transition: 0.2s; }
+        .btn-generate:active { transform: scale(0.98); background: var(--secondary); }
+        
+        #result-area { margin-top: 25px; background: #f1f5f9; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; }
+        textarea#output { background: transparent; border: none; height: 120px; font-size: 1rem; color: #334155; padding: 0; }
+        
+        .footer-tools { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
+        .byte-info { font-size: 0.8rem; color: #64748b; }
+        .btn-copy { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>📝 초등 영어 학습발달상황 관리 시스템</h1>
+    <h1>📝 영어 학습발달 전문 생성기</h1>
 
     <div class="section">
-        <span class="section-title">Step 1. 대상 및 영역 설정</span>
-        <div class="input-group">
-            <input type="text" id="studentName" placeholder="학생 성명">
-            <select id="grade" onchange="loadData()">
-                <option value="3">제3학년</option>
-                <option value="4">제4학년</option>
-            </select>
-            <select id="domain" onchange="loadData()">
-                <option value="listening">듣기 (Listening)</option>
-                <option value="speaking">말하기 (Speaking)</option>
-                <option value="reading">읽기 (Reading)</option>
-                <option value="writing">쓰기 (Writing)</option>
+        <span class="section-title">기본 정보 설정</span>
+        <div class="input-grid">
+            <input type="text" id="name" placeholder="학생 성명">
+            <select id="grade" onchange="initData()"><option value="3">3학년</option><option value="4">4학년</option></select>
+            <select id="domain" onchange="initData()">
+                <option value="L">듣기</option><option value="S">말하기</option><option value="R">읽기</option><option value="W">쓰기</option>
             </select>
         </div>
     </div>
 
     <div class="section">
-        <span class="section-title">Step 2. 교육과정 성취기준 선택</span>
+        <span class="section-title">성취기준 선택 (2022 개정 반영)</span>
         <select id="standardList"></select>
     </div>
 
     <div class="section">
-        <span class="section-title">Step 3. 성취수준 및 정성적 평가</span>
-        <div class="level-selector">
-            <button onclick="setLevel('high', this)" class="active">매우 우수</button>
-            <button onclick="setLevel('mid', this)">보통/양호</button>
-            <button onclick="setLevel('low', this)">기초 노력</button>
+        <span class="section-title">수행 수준 선택</span>
+        <div class="level-group">
+            <button class="level-btn active" onclick="setLevel('H', this)">매우 우수</button>
+            <button class="level-btn" onclick="setLevel('M', this)">보통/양호</button>
+            <button class="level-btn" onclick="setLevel('L', this)">기초 노력</button>
         </div>
-        <select id="attitude" style="margin-top:20px;">
-            <option value="매 수업 시간 적극적인 자세로 참여하며, 모둠 활동 시 동료 학습자를 배려하고 협력하는 태도가 매우 모범적임.">자기주도적 참여 및 협력형</option>
-            <option value="영어 학습에 대한 호기심이 강하고 꾸준히 노력하며, 오류를 두려워하지 않고 의사소통하려는 태도가 돋보임.">의사소통 의지 및 성실형</option>
-            <option value="교사의 지시 사항을 정확히 이해하고 수행하며, 과제 완성도가 높고 학습 집중력이 매우 뛰어남.">과제 집착력 및 집중형</option>
-            <option value="자신의 실력을 향상시키기 위해 성실히 연습에 임하며, 피드백을 수용하여 발전하려는 의지가 강함.">성장 잠재력 및 피드백 수용형</option>
+        <select id="extraAtt" style="margin-top:12px;">
+            <option value="매 수업 성실한 자세로 참여하며 학습 목표를 달성하려는 의지가 매우 강함.">성실 및 목표 지향형</option>
+            <option value="모둠 활동 시 리더십을 발휘하며 동료들과 유연하게 소통하고 협력함.">의사소통 및 협력형</option>
+            <option value="실수를 두려워하지 않고 영어로 표현하려는 적극적인 시도가 매우 돋보임.">적극적 시도 및 도전형</option>
         </select>
     </div>
 
-    <button class="btn-main" onclick="generate()">생활기록부 문장 생성하기</button>
+    <button class="btn-generate" onclick="run()">문장 생성하기</button>
 
-    <div id="result-box">
-        <textarea id="output" rows="5" readonly></textarea>
-        <div class="byte-info">분석 결과: <span id="byteVal" style="color:var(--accent); font-weight:bold;">0</span> Byte (NEIS 입력 가능 범위 확인)</div>
-        <button class="btn-copy" onclick="copy()">클립보드 복사</button>
-        <div style="clear:both;"></div>
+    <div id="result-area">
+        <textarea id="output" readonly placeholder="여기에 결과가 생성됩니다..."></textarea>
+        <div class="footer-tools">
+            <div class="byte-info">글자 수: <span id="byte">0</span> Byte</div>
+            <button class="btn-copy" onclick="copy()">복사하기</button>
+        </div>
     </div>
 </div>
 
 <script>
-    const db = {
+    const DB = {
         "3": {
-            "listening": [
-                { std: "알파벳 대소문자와 낱말의 소리를 식별하여 듣는다.", high: "알파벳 대소문자의 음가 차이를 명확히 인지하고 있으며, 기초적인 낱말의 첫소리를 듣고 해당 철자를 정확하게 찾아내는 음소 식별 능력이 매우 탁월함.", mid: "알파벳 대소문자의 소리를 대부분 구별하여 들으며, 익숙한 낱말의 소리를 듣고 그림과 연결하여 의미를 파악하는 기초 능력이 안정적임.", low: "교사의 시범과 반복 청취를 통해 알파벳의 기초 음가를 익히는 과정에 있으며, 소리에 집중하여 들으려는 태도가 성실함." },
-                { std: "기초적인 낱말, 어구, 문장을 듣고 의미를 파악한다.", high: "일상생활 속의 기초적인 낱말과 짧은 문장을 듣고 그 의미를 즉각적으로 파악하며, 상황에 맞는 언어적/비언어적 반응을 정확하게 수행함.", mid: "그림이나 실물 등 시각적 도움을 받아 기초적인 문장의 의미를 대부분 이해하며, 학습 활동에 능동적으로 참여함.", low: "반복되는 핵심 단어를 중심으로 문장의 의미를 파악하려고 시도하며, 기초 어휘력을 다지기 위해 꾸준히 노력함." }
+            "L": [
+                { s: "[듣기] 알파벳과 낱말의 소리를 식별한다.", H: "알파벳의 음소 단위 소리 차이를 정확히 식별하며, 낱말의 첫소리를 듣고 해당 철자를 인지하는 청각적 식별력이 매우 탁월함.", M: "알파벳 대소문자의 음가를 대체로 구별하며, 익숙한 낱말 소리를 듣고 그림이나 실물과 연결하여 의미를 파악함.", L: "반복되는 음가에 집중하여 들으려 노력하며, 교사의 도움을 받아 알파벳 소리를 식별하는 기초를 다짐." }
             ],
-            "speaking": [
-                { std: "기초적인 인사말을 주고받으며 자기소개를 한다.", high: "상황에 적절한 인사말을 자연스러운 발음과 억양으로 구사하며, 자신에 관한 정보를 자신감 있는 태도로 유창하게 표현함.", mid: "기본적인 인사를 주고받을 수 있으며, 정해진 문형을 활용하여 자신의 정보를 상대방에게 무난하게 전달함.", low: "교사의 도움을 받아 짧은 인사말을 따라 말하며, 영어로 대화하려는 시도 자체에 긍정적인 태도를 보임." }
+            "S": [
+                { s: "[말하기] 인사말을 주고받으며 자기를 소개한다.", H: "학습한 핵심 표현을 바탕으로 상황에 적절한 인사말을 유창하게 구사하며, 이름과 신분 등 자기소개를 자신감 있게 표현함.", M: "기본적인 인사를 주고받을 수 있으며, 정해진 문형을 활용하여 자신의 정보를 상대방에게 무난하게 전달함.", L: "교사의 시범을 보고 짧은 인사말을 따라 말하며, 영어로 대화하려는 시도에 긍정적인 참여 의지를 보임." }
             ],
-            "reading": [
-                { std: "알파벳 대소문자를 구별하여 읽는다.", high: "알파벳 대소문자를 명확히 식별하고 각 철자의 소리와의 관계를 이해하여 처음 보는 단어도 소리 내어 읽으려는 도전적인 태도가 인상적임.", mid: "대부분의 알파벳 대소문자를 정확히 읽을 수 있으며, 시각 자료와 연계하여 낱말의 소리와 의미를 파악하는 능력이 양호함.", low: "철자의 모양을 구별하며 소리 내어 읽으려고 노력 중이며, 알파벳 매칭 활동에 집중하여 참여함." }
+            "R": [
+                { s: "[읽기] 알파벳 대소문자를 식별하여 읽는다.", H: "알파벳 대소문자의 형태적 특징을 명확히 인지하고 있으며, 각 철자의 이름과 음가를 연결하여 유창하게 읽는 능력이 우수함.", M: "대부분의 알파벳 대소문자를 바르게 읽을 수 있으며, 낱말 카드와 시각 자료를 활용한 읽기 활동에 성실함.", L: "철자의 모양을 구별하며 한 글자씩 소리 내어 읽으려 시도하며 읽기 기초 활동에 적극적으로 임함." }
             ],
-            "writing": [
-                { std: "알파벳 대소문자를 쓰는 순서에 맞게 쓴다.", high: "알파벳 대소문자의 모양과 쓰는 순서를 완벽히 숙지하고 있으며, 네 줄 선의 위치에 맞춰 규격대로 바르고 정교하게 쓰는 능력이 매우 뛰어남.", mid: "대부분의 알파벳을 순서에 맞게 쓸 수 있으며, 대문자와 소문자의 높낮이 차이를 인지하며 성실하게 쓰기 과제를 수행함.", low: "알파벳의 모양을 보고 베껴 쓰며 쓰는 순서와 방향을 익히기 위해 반복적으로 연습하는 태도가 진지함." }
+            "W": [
+                { s: "[쓰기] 알파벳 대소문자를 순서에 맞게 쓴다.", H: "알파벳의 획순과 방향을 정확히 숙지하고 있으며, 네 줄 선의 규격에 맞춰 대문자와 소문자를 매우 바르고 정교하게 쓰는 능력이 탁월함.", M: "알파벳 대소문자를 순서에 맞게 쓸 수 있으며, 쓰기 활동 시 집중력을 가지고 과제를 성실하게 완수함.", L: "철자의 모양을 관찰하며 천천히 베껴 쓰기를 수행하고, 바른 획순으로 쓰기 위해 반복적으로 연습함." }
             ]
         },
         "4": {
-            "listening": [
-                { std: "일상생활에 관한 쉽고 간단한 대화를 듣고 이해한다.", high: "일상적인 상황에서 오가는 대화의 핵심 내용을 명확히 파악함은 물론, 화자의 의도와 세부 정보를 정확하게 추출하여 이해하는 청취 역량을 갖춤.", mid: "시각적 힌트나 상황 설명을 바탕으로 대화의 주요 내용을 대부분 바르게 파악하며 전체적인 흐름을 잘 따라감.", low: "반복되는 핵심 표현을 중심으로 대화의 전체적인 상황을 이해하려고 노력하며 경청하는 태도가 형성되어 있음." }
+            "L": [
+                { s: "[듣기] 일상생활의 대화를 듣고 이해한다.", H: "일상적인 대화의 핵심 내용을 명확히 파악함은 물론, 화자의 의도와 세부 정보까지 정확하게 추출하여 이해하는 청취 역량이 매우 뛰어남.", M: "상황 설명이나 시각적 도움을 바탕으로 대화의 주요 내용을 대부분 바르게 파악하며 전체적인 흐름을 잘 따라감.", L: "반복되는 핵심 단어를 중심으로 대화의 상황을 유추하려 노력하며, 경청하는 학습 태도가 안정적임." }
             ],
-            "speaking": [
-                { std: "쉽고 간단한 질문에 답하며 정보를 전달한다.", high: "시간, 장소, 소유 등 일상적인 질문에 대해 적절한 문법과 어휘를 선택하여 즉각적이고 유창하게 대답하는 의사소통 능력이 탁월함.", mid: "기초적인 질문의 의도를 파악하여 학습한 표현을 바탕으로 문장을 구성하여 대답할 수 있으며 발표 의욕이 높음.", low: "핵심 낱말 위주로 질문에 응답하며, 상대방과 소통하려는 의지를 가지고 짧은 대답을 이어가려 노력함." }
-            ],
-            "reading": [
-                { std: "짧고 쉬운 문장을 읽고 의미를 파악한다.", high: "문장 내 어휘의 의미와 구조를 이해하며 자연스러운 리듬과 억양으로 유창하게 읽고, 전체적인 맥락을 정확하게 해석함.", mid: "그림의 도움을 받아 짧은 문장의 의미를 파악하며 소리 내어 읽을 수 있고 읽기 연습에 성실히 임함.", low: "학습한 낱말을 중심으로 문장을 한 단어씩 읽어보려 시도하며 독해의 기초를 다지기 위해 노력함." }
-            ],
-            "writing": [
-                { std: "구두로 익힌 낱말이나 어구를 보고 쓴다.", high: "소리와 철자의 관계(Phonics)를 명확히 이해하여 익힌 낱말을 철자 오류 없이 정확하게 쓰며, 문장 부호 사용이 올바름.", mid: "익숙한 낱말이나 어구를 보고 쓰거나 기억하여 쓸 수 있으며, 쓰기 활동을 통해 학습 내용을 체계적으로 정리함.", low: "낱말의 모양을 확인하며 천천히 옮겨 적는 과정에 집중하고 있으며, 기초 철자를 익히기 위해 꾸준히 연습함." }
+            "S": [
+                { s: "[말하기] 쉽고 간단한 질문에 답한다.", H: "시간, 장소, 소유 등 일상적인 질문에 대해 적절한 어휘와 문장을 선택하여 즉각적이고 유창하게 대답하는 의사소통 능력이 탁월함.", M: "질문의 의도를 파악하여 학습한 표현을 바탕으로 문장을 구성하여 대답할 수 있으며, 발표 활동에 의욕이 높음.", L: "핵심 낱말 위주로 질문에 응답하며, 상대방과 소통하려는 의지를 가지고 짧은 대답을 이어가려 노력함." }
             ]
         }
     };
 
-    let level = 'high';
+    let level = 'H';
+    function setLevel(l, b) { level = l; document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active')); b.classList.add('active'); }
 
-    function setLevel(l, b) {
-        level = l;
-        document.querySelectorAll('.level-selector button').forEach(btn => btn.classList.remove('active'));
-        b.classList.add('active');
-    }
-
-    function loadData() {
-        const g = document.getElementById('grade').value;
-        const d = document.getElementById('domain').value;
-        const s = document.getElementById('standardList');
+    function initData() {
+        const g = document.getElementById('grade').value, d = document.getElementById('domain').value, s = document.getElementById('standardList');
         s.innerHTML = "";
-        if(db[g] && db[g][d]) {
-            db[g][d].forEach((item, idx) => s.add(new Option(item.std, idx)));
-        } else {
-            s.add(new Option("해당 영역 데이터를 준비 중입니다.", ""));
-        }
+        if(DB[g] && DB[g][d]) DB[g][d].forEach((item, i) => s.add(new Option(item.s, i)));
+        else s.add(new Option("데이터 준비 중", ""));
     }
 
-    function generate() {
-        const name = document.getElementById('studentName').value || "이 학생";
-        const g = document.getElementById('grade').value;
-        const d = document.getElementById('domain').value;
-        const idx = document.getElementById('standardList').value;
-        const att = document.getElementById('attitude').value;
-
-        if(idx === "") return alert("성취기준을 선택해 주세요.");
-
-        const main = db[g][d][idx][level];
-        const res = `${name} 학생은 ${main} 또한 ${att}`;
-        
+    function run() {
+        const n = document.getElementById('name').value || "이 학생", g = document.getElementById('grade').value, d = document.getElementById('domain').value, i = document.getElementById('standardList').value, a = document.getElementById('extraAtt').value;
+        if(i==="") return;
+        const res = `${n} 학생은 ${DB[g][d][i][level]} 또한 ${a}`;
         document.getElementById('output').value = res;
-        const bytes = [...res].reduce((a, c) => a + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
-        document.getElementById('byteVal').innerText = bytes;
+        document.getElementById('byte').innerText = [...res].reduce((acc, c) => acc + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
     }
 
-    function copy() {
-        const o = document.getElementById('output');
-        if(!o.value) return;
-        o.select();
-        document.execCommand('copy');
-        alert("나이스 입력용 문장이 복사되었습니다.");
-    }
-
-    window.onload = loadData;
+    function copy() { const o = document.getElementById('output'); o.select(); document.execCommand('copy'); alert("복사 완료!"); }
+    window.onload = initData;
 </script>
 </body>
 </html>

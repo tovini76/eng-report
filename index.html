@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>초등 영어 성적 생성기</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; line-height: 1.6; }
+        .container { max-width: 600px; margin: auto; border: 1px solid #ccc; padding: 20px; border-radius: 10px; }
+        select, button { padding: 10px; margin-top: 10px; width: 100%; }
+        #result { background: #f9f9f9; padding: 15px; margin-top: 20px; border-left: 5px solid #007bff; min-height: 50px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>📝 초등 영어 성적 생성기</h2>
+        <label>성취 기준 선택:</label>
+        <select id="standard">
+            <option value="알파벳 대소문자를 구별하여 읽을 수 있으며, ">알파벳 읽기</option>
+            <option value="일상생활의 친숙한 낱말을 듣고 의미를 파악하며, ">낱말 듣기</option>
+        </select>
+        
+        <label>수준 선택:</label>
+        <select id="level">
+            <option value="기초적인 읽기 능력이 매우 탁월함.">매우 잘함</option>
+            <option value="대부분의 내용을 잘 이해하고 학습 의욕이 높음.">잘함</option>
+            <option value="교사의 도움을 받아 내용을 파악하려 노력함.">보통</option>
+        </select>
+
+        <button onclick="generate()">문장 생성하기</button>
+
+        <div id="result">결과가 여기에 표시됩니다.</div>
+        <button onclick="copyText()">복사하기</button>
+    </div>
+
+    <script>
+        function generate() {
+            const std = document.getElementById('standard').value;
+            const lvl = document.getElementById('level').value;
+            document.getElementById('result').innerText = std + lvl;
+        }
+        function copyText() {
+            const text = document.getElementById('result').innerText;
+            navigator.clipboard.writeText(text);
+            alert("복사되었습니다!");
+        }
+    </script>
+</body>
+</html>

@@ -3,37 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>3학년 영어 단원별 학습발달 평가시스템</title>
+    <title>3학년 영어 단원별 발달사항 전문가 시스템</title>
     <style>
-        :root { --primary: #0f172a; --accent: #e11d48; --gold: #b45309; --bg: #f8fafc; }
+        :root { --primary: #1e293b; --accent: #be123c; --bg: #f8fafc; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Pretendard', 'Apple SD Gothic Neo', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #1e293b; line-height: 1.6; }
-        
-        .container { max-width: 900px; margin: auto; background: #fff; padding: 30px; border-radius: 24px; box-shadow: 0 20px 50px rgba(0,0,0,0.1); border-top: 12px solid var(--primary); }
-        h1 { text-align: center; color: var(--primary); font-size: 1.6rem; margin: 0 0 30px; letter-spacing: -1.5px; border-bottom: 2px solid #f1f5f9; padding-bottom: 20px; }
-        
-        .section { margin-bottom: 25px; }
-        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 12px; display: block; font-size: 0.95rem; border-left: 6px solid var(--accent); padding-left: 12px; }
-        
-        .input-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
-        @media (min-width: 600px) { .input-grid { grid-template-columns: 1fr 1.5fr 1fr; } }
-        
-        input, select, textarea { width: 100%; padding: 15px; border: 2px solid #e2e8f0; border-radius: 14px; font-size: 15px; outline: none; background: #fff; transition: all 0.3s; }
-        input:focus, select:focus { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.1); }
-        
-        .level-group { display: flex; gap: 10px; margin-top: 5px; }
-        .level-btn { flex: 1; padding: 16px 5px; border: 2px solid #e2e8f0; background: #fff; border-radius: 14px; cursor: pointer; font-weight: 800; color: #64748b; font-size: 0.9rem; transition: 0.2s; }
-        .level-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(225, 29, 72, 0.3); }
-        
-        .btn-gen { background: var(--primary); color: white; border: none; padding: 20px; width: 100%; border-radius: 16px; font-size: 1.2rem; font-weight: 800; cursor: pointer; margin: 25px 0; transition: 0.3s; }
-        .btn-gen:hover { background: #1e293b; }
-        
-        #result-area { background: #fffcf0; padding: 25px; border-radius: 18px; border: 2px solid #fde68a; }
-        textarea#output { background: transparent; border: none; height: 180px; font-size: 1.05rem; color: #334155; padding: 0; line-height: 1.9; font-weight: 500; }
-        
-        .footer-tools { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; border-top: 1px solid #fde68a; padding-top: 20px; }
-        .byte-box { font-size: 0.9rem; font-weight: 700; color: var(--gold); }
-        .btn-copy { background: #059669; color: white; border: none; padding: 14px 28px; border-radius: 12px; font-weight: 800; cursor: pointer; box-shadow: 0 4px 10px rgba(5, 150, 105, 0.2); }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #334155; line-height: 1.6; }
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 10px solid var(--primary); }
+        h1 { text-align: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+        .section { margin-bottom: 20px; }
+        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.9rem; border-left: 5px solid var(--accent); padding-left: 10px; }
+        .input-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
+        @media (min-width: 600px) { .input-grid { grid-template-columns: 1fr 1fr 1fr; } }
+        select, input, textarea { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; background: #fff; }
+        .level-group { display: flex; gap: 8px; }
+        .level-btn { flex: 1; padding: 15px; border: 2px solid #e2e8f0; background: #fff; border-radius: 12px; cursor: pointer; font-weight: 700; color: #64748b; }
+        .level-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+        .btn-gen { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 14px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 20px; }
+        #result-box { margin-top: 25px; background: #fffbeb; padding: 20px; border-radius: 14px; border: 2px solid #fef3c7; }
+        textarea#output { background: transparent; border: none; height: 160px; font-size: 1rem; color: #1e293b; padding: 0; line-height: 1.8; }
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid #fde68a; padding-top: 15px; }
+        .byte { font-size: 0.85rem; font-weight: 700; color: #b45309; }
+        .btn-copy { background: #059669; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🏛️ 3학년 영어 발달평가 (11단원 전체 심화형)</h1>
+
+    <div class="section">
+        <span class="section-title">1. 평가 대상 및 단원 설정</span>
+        <div class="input-grid">
+            <input type="text" id="name" placeholder="학생 성명">
+            <select id="unit" onchange="loadData()">
+                <option value="1">1단원 Hello (인사)</option>
+                <option value="2">2단원 What's This? (사물)</option>
+                <option value="3">3단원 Stand Up (명령)</option>
+                <option value="4">4단원 How Many? (수량)</option>
+                <option value="5">5단원 I Like Apples (선호)</option>
+                <option value="6">6단원 I Can Swim (능력)</option>
+                <option value="7">7단원 I Have a Pencil (소유)</option>
+                <option value="8">8단원 It's Big (상태묘사)</option>
+                <option value="9">9단원 Who is He? (가족/인물)</option>
+                <option value="10">10단원 Blue/Yellow (색상)</option>
+                <option value="11">11단원 Happy Birthday (축하)</option>
+            </select>
+            <select id="domain" onchange="loadData()">
+                <option value="L">듣기</option><option value="S">말하기</option><option value="R">읽기</option><option value="W">쓰기</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">2. 단원별 심화 성취기준</span>
+        <select id="stdList"></select>
+    </div>
+
+    <div class="section">
+        <span class="section-title">3. 수행 수준 (성취도 결과)</span>
+        <div class="level-group">
+            <button class="level-btn active" id="btn-H" onclick="setLvl('H')">매우 우수</button>
+            <button class="level-btn" id="btn-M" onclick="setLvl('M')">보통/양호</button>
+            <button class="level-btn" id="btn-L" onclick="setLvl('L')">기초 노력</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">4. 정의적 태도</span>
+        <select id="att">
+            <option value="수업에 주도적으로 참여하며 상호작용 능력이 탁월함.">주도적 참여형</option>
+            <option value="오류를 두려워하지 않고 시도하며 의사소통 의지가 강함.">의사소통 적극형</option>
+            <option value="급우의 발화를 경청하고 협력하여 과제를 완수함.">협력 및 경청형</option>
+        </select>
+    </div>
+
+    <button class="btn-gen" onclick="make()">성적 발달사항 생성 🚀</button>
+
+    <div id="result-box">
+        <textarea id="output" readonly></textarea>
+        <div class="footer">
+            <div class="byte">나이스 기준: <span id="byteVal">0</span> Byte</div>
+            <button class="btn-copy" onclick="copy()">복사</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const DB = {
+    "1": { "L": [{s:"인사말 식별 청취", H:"기초적인 인사말의 음가 차이를 명확히 인지하고 상황에 따른 담화의 맥락을 완벽히 이해함.", M:"친숙한 인사말을 듣고 의미를 파악하며 적절한 반응을 보임.", L:"반복되는 인사말에 집중하며 교사의 도움으로 기초 음가를 익힘."}], "S": [{s:"자기소개 및 인사", H:"자연스러운 발음과 자신감 있는 태도로 인사하며 자신을 유창하게 소개함.", M:"학습한 문형을 활용하여 인사말과 이름을 무난히 표현함.", L:"교사의 시범을 따라 하며 대화에 참여하려는 긍정적인 의지를 보임."}] },
+    "2": { "L": [{s:"사물 명칭 듣고 식별", H:"사물을 묘사하는 낱말을 듣고 대상을 즉각 식별하며 음소 식별 능력이 매우 탁월함.", M:"사물의 이름을 듣고 그림과 연결하여 의미를 바르게 파악함.", L:"핵심 단어의 첫소리에 주의를 기울이며 사물 명칭을 이해하려 노력함."}] },
+    "3": { "L": [{s:"지시/명령 듣고 반응", H:"교실 내 다양한 지시 명령을 듣고 지체 없이 적절한 행동으로 반응하며 활동 흐름을 정확히 이해함.", M:"기본적인 지시를 듣고 상황에 맞게 바르게 반응함.", L:"교사의 시범을 보고 간단한 지시를 행동으로 옮기려 노력함."}] },
+    "4": { "S": [{s:"수량 묻고 답하기", H:"기수(1-10)를 정확히 활용하여 사물의 개수를 유창하게 묻고 답하며 수개념 표현이 우수함.", M:"사물의 개수를 묻는 질문에 학습한 수사를 활용하여 무난히 대답함.", L:"그림을 보며 개수를 세고 단어 수준에서 수량을 응답하려 시도함."}] },
+    "5": { "S": [{s:"선호 표현하기", H:"좋아하는 과일이나 사물에 대해 I like~ 구문을 활용하여 자신의 기호를 자신감 있게 표현함.", M:"좋아하는 대상을 묻는 질문에 학습 표현을 사용하여 적절히 응답함.", L:"낱말 위주로 선호를 표현하며 의사소통 의지를 가지고 활동에 참여함."}] },
+    "6": { "L": [{s:"능력 표현 듣기", H:"I can~ 구문을 포함한 기능 표현을 듣고 화자의 능력을 정확히 파악하며 세부 정보를 잘 이해함.", M:"능력과 관련된 기초 문장을 듣고 그 의미를 대체로 잘 이해함.", L:"핵심 동사에 집중하여 할 수 있는 일에 대한 표현을 이해하려 노력함."}] },
+    "7": { "R": [{s:"소유 관련 낱말 읽기", H:"학용품 등 소유물 관련 낱말을 소리와 연결하여 유창하게 읽고 문장 속 의미를 명확히 파악함.", M:"학습한 소유 관련 단어를 소리 내어 읽고 그림과 바르게 매칭함.", L:"낱말의 철자에 주의를 기울이며 소리 내어 읽으려는 시도를 지속함."}] },
+    "8": { "S": [{s:"상태 묘사하기", H:"Big, Small 등 형용사를 활용하여 사물의 상태를 정확한 발음과 억양으로 실감 나게 묘사함.", M:"사물의 특징을 나타내는 기초 문장을 구성하여 적절히 표현함.", L:"그림 힌트를 받아 상태를 나타내는 단어를 따라 말하며 묘사하려 노력함."}] },
+    "9": { "L": [{s:"인물 묻고 답하기 듣기", H:"Who is he/she? 등의 질문을 듣고 인물 간의 관계와 정보를 정확하게 파악하는 능력이 뛰어남.", M:"가족이나 인물에 관한 질문을 듣고 대상을 바르게 식별함.", L:"핵심 대명사에 주의를 기울이며 인물에 관한 설명을 이해하려 노력함."}] },
+    "10": { "W": [{s:"색상 낱말 쓰기", H:"색상을 나타내는 낱말의 철자를 음성-문자 전이 과정을 통해 오류 없이 정확하게 인출하여 씀.", M:"색상 관련 낱말을 보고 쓰거나 기억하여 쓰며 쓰기 과제를 성실히 수행함.", L:"색상 낱말의 모양을 확인하며 천천히 베껴 쓰기를 통해 철자를 익힘."}] },
+    "11": { "S": [{s:"축하하고 감사하기", H:"축하하는 상황에 맞는 감정 실린 억양으로 축하 인사를 건네며 감사 표현을 유창하게 주고받음.", M:"생일 축하 등 특정 상황에서 학습한 표현을 사용하여 적절히 대화함.", L:"교사의 도움을 받아 축하 표현을 따라 하며 의사소통 활동에 즐겁게 참여함."}] }
+};
+
+let curLvl = 'H';
+function setLvl(l) { curLvl = l; document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); document.getElementById('btn-'+l).classList.add('active'); }
+function loadData() {
+    const u = document.getElementById('unit').value, d = document.getElementById('domain').value, s = document.getElementById('stdList');
+    s.innerHTML = "";
+    if(DB[u] && DB[u][d]) DB[u][d].forEach((item, i) => s.add(new Option(item.s, i)));
+    else s.add(new Option("데이터 준비 중", ""));
+}
+function make() {
+    const n = document.getElementById('name').value || "이 학생", u = document.getElementById('unit').value, d = document.getElementById('domain').value, i = document.getElementById('stdList').value, a = document.getElementById('att').value;
+    if(!DB[u] || !DB[u][d] || i==="") return alert("데이터 미비");
+    const res = `${n} 학생은 ${DB[u][d][i][curLvl]} 또한 ${a}`;
+    document.getElementById('output').value = res;
+    document.getElementById('byteVal').innerText = [...res].reduce((acc, c) => acc + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
+}
+function copy() { const o = document.getElementById('output'); o.select(); document.execCommand('copy'); alert("복사 완료!"); }
+window.onload = loadData;
+</script>
+</body>
+</html>
     </style>
 </head>
 <body>

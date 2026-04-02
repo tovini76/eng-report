@@ -3,337 +3,195 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>3학년 영어 단원별 발달사항 전문가 시스템</title>
+    <title>3학년 영어 세부 성취도 평가 시스템</title>
     <style>
-        :root { --primary: #1e293b; --accent: #be123c; --bg: #f8fafc; }
+        :root { --primary: #0f172a; --accent: #059669; --bg: #f8fafc; }
         * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Pretendard', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #334155; line-height: 1.6; }
-        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); border-top: 10px solid var(--primary); }
-        h1 { text-align: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
-        .section { margin-bottom: 20px; }
-        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 10px; display: block; font-size: 0.9rem; border-left: 5px solid var(--accent); padding-left: 10px; }
-        .input-grid { display: grid; gap: 10px; grid-template-columns: 1fr; }
-        @media (min-width: 600px) { .input-grid { grid-template-columns: 1fr 1fr 1fr; } }
-        select, input, textarea { width: 100%; padding: 14px; border: 2px solid #e2e8f0; border-radius: 12px; font-size: 15px; outline: none; background: #fff; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #1e293b; line-height: 1.6; }
+        
+        .container { max-width: 900px; margin: auto; background: #fff; padding: 25px; border-radius: 20px; box-shadow: 0 15px 35px rgba(0,0,0,0.08); border-top: 8px solid var(--primary); }
+        h1 { text-align: center; color: var(--primary); font-size: 1.5rem; margin-bottom: 25px; border-bottom: 2px solid #f1f5f9; padding-bottom: 15px; }
+        
+        .section { margin-bottom: 25px; padding: 20px; background: #f1f5f9; border-radius: 12px; }
+        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 15px; display: block; font-size: 1rem; border-left: 5px solid var(--accent); padding-left: 10px; }
+        
+        .input-grid { display: grid; gap: 12px; grid-template-columns: 1fr; }
+        @media (min-width: 600px) { .input-grid { grid-template-columns: 1fr 1.5fr 1fr; } }
+        
+        select, input, textarea { width: 100%; padding: 14px; border: 2px solid #cbd5e1; border-radius: 10px; font-size: 15px; background: #fff; outline: none; transition: 0.2s; }
+        select:focus, input:focus { border-color: var(--accent); }
+        
+        /* 세부 항목 선택 박스 강조 */
+        #detailList { border: 2px solid var(--primary); font-weight: 600; color: var(--primary); }
+        
         .level-group { display: flex; gap: 8px; }
-        .level-btn { flex: 1; padding: 15px; border: 2px solid #e2e8f0; background: #fff; border-radius: 12px; cursor: pointer; font-weight: 700; color: #64748b; }
+        .level-btn { flex: 1; padding: 15px; border: 2px solid #cbd5e1; background: #fff; border-radius: 10px; cursor: pointer; font-weight: 800; color: #64748b; }
         .level-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); }
-        .btn-gen { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 14px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 20px; }
-        #result-box { margin-top: 25px; background: #fffbeb; padding: 20px; border-radius: 14px; border: 2px solid #fef3c7; }
-        textarea#output { background: transparent; border: none; height: 160px; font-size: 1rem; color: #1e293b; padding: 0; line-height: 1.8; }
-        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid #fde68a; padding-top: 15px; }
-        .byte { font-size: 0.85rem; font-weight: 700; color: #b45309; }
-        .btn-copy { background: #059669; color: white; border: none; padding: 12px 24px; border-radius: 10px; font-weight: 700; cursor: pointer; }
+        
+        .btn-gen { background: var(--primary); color: white; border: none; padding: 18px; width: 100%; border-radius: 12px; font-size: 1.1rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        
+        #result-box { margin-top: 20px; background: #ecfdf5; padding: 20px; border-radius: 12px; border: 2px solid #a7f3d0; }
+        textarea#output { background: transparent; border: none; height: 160px; font-size: 1.05rem; color: #064e3b; padding: 0; }
+        
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid #a7f3d0; padding-top: 15px; }
+        .byte { font-weight: 700; color: #b45309; }
+        .btn-copy { background: #059669; color: white; border: none; padding: 12px 25px; border-radius: 8px; font-weight: 700; cursor: pointer; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <h1>🏛️ 3학년 영어 발달평가 (11단원 전체 심화형)</h1>
+    <h1>📊 3학년 단원별 세부 성취도 평가표</h1>
 
     <div class="section">
-        <span class="section-title">1. 평가 대상 및 단원 설정</span>
+        <span class="section-title">1. 단원 및 영역 선택</span>
         <div class="input-grid">
             <input type="text" id="name" placeholder="학생 성명">
-            <select id="unit" onchange="loadData()">
-                <option value="1">1단원 Hello (인사)</option>
-                <option value="2">2단원 What's This? (사물)</option>
-                <option value="3">3단원 Stand Up (명령)</option>
-                <option value="4">4단원 How Many? (수량)</option>
-                <option value="5">5단원 I Like Apples (선호)</option>
-                <option value="6">6단원 I Can Swim (능력)</option>
-                <option value="7">7단원 I Have a Pencil (소유)</option>
-                <option value="8">8단원 It's Big (상태묘사)</option>
-                <option value="9">9단원 Who is He? (가족/인물)</option>
-                <option value="10">10단원 Blue/Yellow (색상)</option>
-                <option value="11">11단원 Happy Birthday (축하)</option>
+            <select id="unit" onchange="loadDetails()">
+                <option value="U1">1단원. Hello (인사/소개)</option>
+                <option value="U2">2단원. What's This? (사물/음소)</option>
+                <option value="U3">3단원. Stand Up (지시/명령)</option>
             </select>
-            <select id="domain" onchange="loadData()">
-                <option value="L">듣기</option><option value="S">말하기</option><option value="R">읽기</option><option value="W">쓰기</option>
+            <select id="domain" onchange="loadDetails()">
+                <option value="L">듣기 (청해)</option>
+                <option value="S">말하기 (발화)</option>
+                <option value="R">읽기 (독해)</option>
+                <option value="W">쓰기 (영작)</option>
             </select>
         </div>
     </div>
 
-    <div class="section">
-        <span class="section-title">2. 단원별 심화 성취기준</span>
-        <select id="stdList"></select>
+    <div class="section" style="background:#fff;">
+        <span class="section-title" style="color:#b45309; border-color:#b45309;">2. 세부 심화 평가 항목 (성취기준 세분화)</span>
+        <select id="detailList"></select>
     </div>
 
     <div class="section">
-        <span class="section-title">3. 수행 수준 (성취도 결과)</span>
+        <span class="section-title">3. 수행 수준 판정</span>
         <div class="level-group">
-            <button class="level-btn active" id="btn-H" onclick="setLvl('H')">매우 우수</button>
-            <button class="level-btn" id="btn-M" onclick="setLvl('M')">보통/양호</button>
-            <button class="level-btn" id="btn-L" onclick="setLvl('L')">기초 노력</button>
+            <button class="level-btn active" id="btn-H" onclick="setLvl('H')">매우 우수 (A)</button>
+            <button class="level-btn" id="btn-M" onclick="setLvl('M')">보통/양호 (B)</button>
+            <button class="level-btn" id="btn-L" onclick="setLvl('L')">기초 노력 (C)</button>
         </div>
     </div>
 
     <div class="section">
-        <span class="section-title">4. 정의적 태도</span>
+        <span class="section-title">4. 관찰된 학습 태도</span>
         <select id="att">
-            <option value="수업에 주도적으로 참여하며 상호작용 능력이 탁월함.">주도적 참여형</option>
-            <option value="오류를 두려워하지 않고 시도하며 의사소통 의지가 강함.">의사소통 적극형</option>
-            <option value="급우의 발화를 경청하고 협력하여 과제를 완수함.">협력 및 경청형</option>
+            <option value="외국어 학습에 대한 흥미가 매우 높으며, 과제 수행 시 자기주도적인 학습 태도가 돋보임.">자기주도적 학습 태도</option>
+            <option value="짝 활동이나 모둠 활동 시 급우를 배려하며 적극적으로 의사소통에 참여함.">배려 및 협력적 소통</option>
+            <option value="발음이나 문법의 오류를 두려워하지 않고 끊임없이 발화하려는 도전 정신이 우수함.">도전적 발화 시도</option>
         </select>
     </div>
 
-    <button class="btn-gen" onclick="make()">성적 발달사항 생성 🚀</button>
+    <button class="btn-gen" onclick="make()">세부 평가 결과 생성 🚀</button>
 
     <div id="result-box">
-        <textarea id="output" readonly></textarea>
+        <textarea id="output" readonly placeholder="선택한 세부 항목에 대한 평가 결과가 나옵니다."></textarea>
         <div class="footer">
-            <div class="byte">나이스 기준: <span id="byteVal">0</span> Byte</div>
+            <div class="byte">NEIS 입력 바이트: <span id="byteVal">0</span> Byte</div>
             <button class="btn-copy" onclick="copy()">복사</button>
         </div>
     </div>
 </div>
 
 <script>
+// 🔥 극심화 데이터: 단원별 > 영역별 > [세부 평가요소 1, 2, 3...]
 const DB = {
-    "1": { "L": [{s:"인사말 식별 청취", H:"기초적인 인사말의 음가 차이를 명확히 인지하고 상황에 따른 담화의 맥락을 완벽히 이해함.", M:"친숙한 인사말을 듣고 의미를 파악하며 적절한 반응을 보임.", L:"반복되는 인사말에 집중하며 교사의 도움으로 기초 음가를 익힘."}], "S": [{s:"자기소개 및 인사", H:"자연스러운 발음과 자신감 있는 태도로 인사하며 자신을 유창하게 소개함.", M:"학습한 문형을 활용하여 인사말과 이름을 무난히 표현함.", L:"교사의 시범을 따라 하며 대화에 참여하려는 긍정적인 의지를 보임."}] },
-    "2": { "L": [{s:"사물 명칭 듣고 식별", H:"사물을 묘사하는 낱말을 듣고 대상을 즉각 식별하며 음소 식별 능력이 매우 탁월함.", M:"사물의 이름을 듣고 그림과 연결하여 의미를 바르게 파악함.", L:"핵심 단어의 첫소리에 주의를 기울이며 사물 명칭을 이해하려 노력함."}] },
-    "3": { "L": [{s:"지시/명령 듣고 반응", H:"교실 내 다양한 지시 명령을 듣고 지체 없이 적절한 행동으로 반응하며 활동 흐름을 정확히 이해함.", M:"기본적인 지시를 듣고 상황에 맞게 바르게 반응함.", L:"교사의 시범을 보고 간단한 지시를 행동으로 옮기려 노력함."}] },
-    "4": { "S": [{s:"수량 묻고 답하기", H:"기수(1-10)를 정확히 활용하여 사물의 개수를 유창하게 묻고 답하며 수개념 표현이 우수함.", M:"사물의 개수를 묻는 질문에 학습한 수사를 활용하여 무난히 대답함.", L:"그림을 보며 개수를 세고 단어 수준에서 수량을 응답하려 시도함."}] },
-    "5": { "S": [{s:"선호 표현하기", H:"좋아하는 과일이나 사물에 대해 I like~ 구문을 활용하여 자신의 기호를 자신감 있게 표현함.", M:"좋아하는 대상을 묻는 질문에 학습 표현을 사용하여 적절히 응답함.", L:"낱말 위주로 선호를 표현하며 의사소통 의지를 가지고 활동에 참여함."}] },
-    "6": { "L": [{s:"능력 표현 듣기", H:"I can~ 구문을 포함한 기능 표현을 듣고 화자의 능력을 정확히 파악하며 세부 정보를 잘 이해함.", M:"능력과 관련된 기초 문장을 듣고 그 의미를 대체로 잘 이해함.", L:"핵심 동사에 집중하여 할 수 있는 일에 대한 표현을 이해하려 노력함."}] },
-    "7": { "R": [{s:"소유 관련 낱말 읽기", H:"학용품 등 소유물 관련 낱말을 소리와 연결하여 유창하게 읽고 문장 속 의미를 명확히 파악함.", M:"학습한 소유 관련 단어를 소리 내어 읽고 그림과 바르게 매칭함.", L:"낱말의 철자에 주의를 기울이며 소리 내어 읽으려는 시도를 지속함."}] },
-    "8": { "S": [{s:"상태 묘사하기", H:"Big, Small 등 형용사를 활용하여 사물의 상태를 정확한 발음과 억양으로 실감 나게 묘사함.", M:"사물의 특징을 나타내는 기초 문장을 구성하여 적절히 표현함.", L:"그림 힌트를 받아 상태를 나타내는 단어를 따라 말하며 묘사하려 노력함."}] },
-    "9": { "L": [{s:"인물 묻고 답하기 듣기", H:"Who is he/she? 등의 질문을 듣고 인물 간의 관계와 정보를 정확하게 파악하는 능력이 뛰어남.", M:"가족이나 인물에 관한 질문을 듣고 대상을 바르게 식별함.", L:"핵심 대명사에 주의를 기울이며 인물에 관한 설명을 이해하려 노력함."}] },
-    "10": { "W": [{s:"색상 낱말 쓰기", H:"색상을 나타내는 낱말의 철자를 음성-문자 전이 과정을 통해 오류 없이 정확하게 인출하여 씀.", M:"색상 관련 낱말을 보고 쓰거나 기억하여 쓰며 쓰기 과제를 성실히 수행함.", L:"색상 낱말의 모양을 확인하며 천천히 베껴 쓰기를 통해 철자를 익힘."}] },
-    "11": { "S": [{s:"축하하고 감사하기", H:"축하하는 상황에 맞는 감정 실린 억양으로 축하 인사를 건네며 감사 표현을 유창하게 주고받음.", M:"생일 축하 등 특정 상황에서 학습한 표현을 사용하여 적절히 대화함.", L:"교사의 도움을 받아 축하 표현을 따라 하며 의사소통 활동에 즐겁게 참여함."}] }
+    "U1": { 
+        "L": [
+            { s: "[세부1] 아침, 점심, 저녁에 맞는 인사말 구별하여 듣기", H: "시간대별(아침, 점심, 저녁) 인사말의 음운적 차이를 명확히 식별하며, 상황에 맞는 인사말을 듣고 즉각적으로 이해함.", M: "그림 힌트나 교사의 제스처를 참고하여 시간대별 인사말을 듣고 그 의미를 대체로 바르게 구별함.", L: "반복되는 인사말 소리에 주의를 기울이며, 시간대에 따른 인사말의 차이를 구별하려고 노력함." },
+            { s: "[세부2] 처음 만나는 상황의 안부 묻고 답하기 듣기", H: "처음 만나는 사람과 안부를 묻는 대화(How are you? 등)를 듣고 화자의 의도와 담화의 맥락을 완벽히 파악함.", M: "안부를 묻고 답하는 기본적인 대화를 듣고 주요 표현의 의미를 무난하게 이해함.", L: "안부를 묻는 대화의 핵심 단어에 집중하여 담화의 전반적인 분위기를 이해하려 시도함." }
+        ],
+        "S": [
+            { s: "[세부1] 시간과 상황에 알맞은 억양으로 인사하기", H: "시간대와 상황에 부합하는 적절한 억양과 리듬을 사용하여 원어민에 가까운 자연스러운 발화로 인사함.", M: "학습한 문형을 바탕으로 상황에 맞는 인사말을 큰 목소리로 자신감 있게 표현함.", L: "교사의 발음을 듣고 따라 하며, 억양과 강세를 모방하여 인사말을 말해보려 노력함." },
+            { s: "[세부2] 자신을 소개하고 헤어지는 인사하기", H: "I'm ~ 구문을 활용하여 자신을 정확히 소개하고, 대화를 마칠 때 알맞은 작별 인사를 유창하게 구사함.", M: "자신의 이름을 넣어 자기소개를 할 수 있으며, 헤어질 때의 기본 인사말을 적절히 표현함.", L: "단어 수준에서 자신의 이름을 말하고, 짝과 함께 헤어지는 인사를 주고받는 활동에 성실히 참여함." }
+        ],
+        "R": [
+            { s: "[세부1] 알파벳 A~M 대소문자 짝지어 읽기", H: "알파벳 A부터 M까지 대소문자의 형태를 완벽히 매칭하고, 각 철자의 명칭을 정확한 발음으로 지체 없이 읽음.", M: "대부분의 알파벳 A~M 대소문자를 짝지어 식별할 수 있으며 소리 내어 읽기 활동에 흥미를 보임.", L: "대문자와 소문자의 모양을 대조하며 천천히 식별하고, 교사와 함께 알파벳을 읽는 과정에 집중함." }
+        ],
+        "W": [
+            { s: "[세부1] 알파벳 A~M 대소문자 획순에 맞게 쓰기", H: "알파벳 A~M의 획순과 방향을 완벽히 숙지하고 네 줄 선의 알맞은 위치에 정교하고 반듯하게 쓰는 능력이 탁월함.", M: "주어진 기준선을 참고하여 알파벳 대소문자(A~M)를 순서에 맞게 쓰며 과제를 깔끔하게 완수함.", L: "알파벳 쓰기표를 보고 모양을 관찰하며 베껴 쓰기를 통해 바른 획순을 익히려 꾸준히 연습함." }
+        ]
+    },
+    "U2": { 
+        "L": [
+            { s: "[세부1] 학용품을 나타내는 낱말 듣고 식별하기", H: "다양한 학용품의 명칭을 듣고 즉각적으로 해당 사물을 가리키거나 찾아내는 음운 식별 및 정보 처리 능력이 우수함.", M: "친숙한 학용품 명칭을 듣고 그림 카드와 바르게 연결하며 의미를 대체로 잘 파악함.", L: "학용품 이름의 첫소리에 단서를 두고 듣기 활동에 집중하며 사물과 낱말을 매칭하려 시도함." },
+            { s: "[세부2] 사물이 무엇인지 묻는 질문 듣고 이해하기", H: "What's this/that? 구문을 듣고 거리에 따른 사물 지칭의 차이를 명확히 인지하여 화자의 질문 의도를 정확히 파악함.", M: "사물을 가리키며 무엇인지 묻는 질문을 듣고 상황적 맥락을 통해 그 의미를 무난히 이해함.", L: "What's 라는 핵심 의문사에 귀 기울이며 사물을 묻는 상황임을 눈치채고 대화에 참여하려 함." }
+        ],
+        "S": [
+            { s: "[세부1] 사물의 이름을 묻고 답하는 대화하기", H: "사물을 가리키며 묻고 답하는 롤플레이(Role-play) 상황에서 적절한 어휘와 문장 구조를 활용하여 주도적으로 상호작용함.", M: "짝과 함께 사물의 이름을 묻고 답하는 기본 구문을 주고받으며 말하기 활동에 적극적으로 임함.", L: "제시된 사물 카드를 보고 이름을 말하며, 의문문 구조를 천천히 따라 말해보려 노력함." }
+        ],
+        "R": [
+            { s: "[세부1] 알파벳 N~Z 대소문자 짝지어 읽기", H: "알파벳 N~Z 대소문자의 형태적 특징을 완벽히 인지하여 혼동하기 쉬운 철자(p/q 등)도 명확하게 구별하여 읽음.", M: "대부분의 알파벳 N~Z 대소문자를 정확히 식별하여 읽을 수 있으며 챈트나 노래를 통한 읽기 활동을 즐김.", L: "유사한 모양의 알파벳 철자를 구별하려 노력하며 한 글자씩 소리 내어 읽는 연습에 성실함." }
+        ],
+        "W": [
+            { s: "[세부1] 알파벳 N~Z 대소문자 획순에 맞게 쓰기", H: "알파벳 N~Z의 획순을 정확히 지키며 문자의 크기와 비율을 고려하여 매우 정돈된 글씨체로 씀.", M: "대문자와 소문자의 높낮이를 인지하여 선에 맞게 알파벳(N~Z)을 순서대로 쓰며 집중력을 보임.", L: "알파벳의 둥근 부분과 직선 부분을 관찰하며 천천히 옮겨 적고 쓰기 기초를 다지기 위해 성실히 연습함." }
+        ]
+    },
+    "U3": { 
+        "L": [
+            { s: "[세부1] 일상적인 동작과 관련된 지시 듣고 이해하기", H: "Stand up, Sit down, Open/Close 등 상반되는 동작을 나타내는 동사를 명확히 구별하여 듣고 즉각 이해함.", M: "동작을 나타내는 핵심 동사를 듣고 교사의 제스처 없이도 그 의미를 대체로 바르게 파악함.", L: "반복되는 동사의 소리에 익숙해지려 노력하며, 동작과 관련된 듣기 활동에 주의를 기울임." },
+            { s: "[세부2] 긍정/부정의 지시문 듣고 구별하기", H: "Do와 Don't로 시작하는 지시문의 억양 차이를 예민하게 포착하여 긍정과 부정의 지시를 완벽히 구별하여 행동함.", M: "하지 말라는 부정의 지시(Don't~)를 듣고 문장의 의도를 파악하여 적절히 멈추거나 반응함.", L: "부정어 Don't의 소리에 집중하며 교실 내 규칙이나 지시사항을 이해하려고 꾸준히 시도함." }
+        ],
+        "S": [
+            { s: "[세부1] 동작을 지시하는 말에 알맞게 반응하며 말하기", H: "상대방에게 명확한 강세와 억양으로 지시하거나 명령하는 말을 유창하게 구사하며 교실 놀이를 주도함.", M: "학습한 동작 동사를 활용하여 짝에게 간단한 지시를 내리고 이에 알맞게 반응하는 활동에 능숙함.", L: "동작을 나타내는 낱말을 말하며 짝과 함께 지시하고 반응하는 신체 활동(TPR)에 즐겁게 참여함." }
+        ],
+        "R": [
+            { s: "[세부1] 시각 자료와 낱말 연결하여 읽기", H: "동작을 나타내는 그림을 보고 해당 낱말의 철자를 소리와 완벽하게 대응시켜 자연스럽게 읽어냄.", M: "학습한 동사 낱말을 소리 내어 읽고 그에 알맞은 행동 그림을 바르게 찾아 연결함.", L: "낱말의 첫 알파벳 소리를 단서로 동작을 나타내는 낱말을 더듬더듬 읽어보려 시도함." }
+        ],
+        "W": [
+            { s: "[세부1] 동작을 나타내는 기초 낱말 쓰기", H: "동작을 나타내는 낱말의 철자 체계를 정확히 이해하여 시각 자료 없이도 철자 오류 없이 완벽하게 씀.", M: "학습한 동작 낱말을 보고 네 줄 선에 맞추어 바른 획순과 간격으로 깔끔하게 베껴 씀.", L: "낱말 카드를 확인하며 한 글자씩 천천히 옮겨 적고 단어 쓰기 과제에 성실하게 임함." }
+        ]
+    }
 };
 
 let curLvl = 'H';
-function setLvl(l) { curLvl = l; document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); document.getElementById('btn-'+l).classList.add('active'); }
-function loadData() {
-    const u = document.getElementById('unit').value, d = document.getElementById('domain').value, s = document.getElementById('stdList');
-    s.innerHTML = "";
-    if(DB[u] && DB[u][d]) DB[u][d].forEach((item, i) => s.add(new Option(item.s, i)));
-    else s.add(new Option("데이터 준비 중", ""));
+function setLvl(l) { 
+    curLvl = l; 
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); 
+    document.getElementById('btn-'+l).classList.add('active'); 
 }
+
+function loadDetails() {
+    const u = document.getElementById('unit').value;
+    const d = document.getElementById('domain').value;
+    const s = document.getElementById('detailList');
+    s.innerHTML = "";
+    
+    if(DB[u] && DB[u][d]) {
+        DB[u][d].forEach((item, i) => s.add(new Option(item.s, i)));
+    } else {
+        s.add(new Option("해당 영역의 세부 항목이 없습니다.", ""));
+    }
+}
+
 function make() {
-    const n = document.getElementById('name').value || "이 학생", u = document.getElementById('unit').value, d = document.getElementById('domain').value, i = document.getElementById('stdList').value, a = document.getElementById('att').value;
-    if(!DB[u] || !DB[u][d] || i==="") return alert("데이터 미비");
+    const n = document.getElementById('name').value || "이 학생";
+    const u = document.getElementById('unit').value;
+    const d = document.getElementById('domain').value;
+    const i = document.getElementById('detailList').value;
+    const a = document.getElementById('att').value;
+    
+    if(!DB[u] || !DB[u][d] || i === "") return alert("세부 항목을 선택해주세요.");
+    
+    // 심화 평가 문장 조합
     const res = `${n} 학생은 ${DB[u][d][i][curLvl]} 또한 ${a}`;
     document.getElementById('output').value = res;
+    
+    // 바이트 계산
     document.getElementById('byteVal').innerText = [...res].reduce((acc, c) => acc + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
 }
-function copy() { const o = document.getElementById('output'); o.select(); document.execCommand('copy'); alert("복사 완료!"); }
-window.onload = loadData;
-</script>
-</body>
-</html>
-    </style>
-</head>
-<body>
 
-<div class="container">
-    <h1>🏛️ 3학년 영어 발달사항 전문 평가시스템</h1>
+function copy() { 
+    const o = document.getElementById('output'); 
+    if(!o.value) return; 
+    o.select(); o.setSelectionRange(0, 99999); 
+    document.execCommand('copy'); 
+    alert("극심화 평가 문장이 복사되었습니다."); 
+}
 
-    <div class="section">
-        <span class="section-title">1. 학생 정보 및 평가 영역</span>
-        <div class="input-grid">
-            <input type="text" id="stdName" placeholder="학생 성명">
-            <select id="unit" onchange="updateStd()">
-                <option value="U1">1단원. Hello (인사/소개)</option>
-                <option value="U2">2단원. What's This? (사물/음소)</option>
-                <option value="U3">3단원. Stand Up (지시/명령)</option>
-                <option value="U4">4단원. How Many? (수사/수량)</option>
-                <option value="U5">5단원. I Like Apples (선호/과일)</option>
-                <option value="U6">6단원. I Can Swim (기능/능력)</option>
-            </select>
-            <select id="domain" onchange="updateStd()">
-                <option value="L">듣기 (Reception)</option>
-                <option value="S">말하기 (Interaction)</option>
-                <option value="R">읽기 (Decoding)</option>
-                <option value="W">쓰기 (Encoding)</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="section">
-        <span class="section-title">2. 단원별 성취기준 정밀 선택</span>
-        <select id="stdList"></select>
-    </div>
-
-    <div class="section">
-        <span class="section-title">3. 수행 수준 (성취도별 평가결과)</span>
-        <div class="level-group">
-            <button class="level-btn active" id="btn-H" onclick="selLvl('H')">매우 우수</button>
-            <button class="level-btn" id="btn-M" onclick="selLvl('M')">보통/양호</button>
-            <button class="level-btn" id="btn-L" onclick="selLvl('L')">기초 노력</button>
-        </div>
-    </div>
-
-    <div class="section">
-        <span class="section-title">4. 정의적 영역 (학습 태도)</span>
-        <select id="att">
-            <option value="외국어 학습에 대한 높은 흥미와 자신감을 바탕으로 교실 활동에 주도적으로 참여하며 상호작용 능력이 탁월함.">자기주도적 및 높은 효능감</option>
-            <option value="급우들의 발화를 경청하며 협력적인 자세로 의사소통에 임하고, 과제 수행 시 성실함이 돋보임.">협력적 태도 및 경청 자세</option>
-            <option value="실수에 연연하지 않고 적극적으로 발화하려는 도전적인 태도를 보이며 꾸준한 언어적 성장을 이룸.">도전적 시도 및 성장 가능성</option>
-            <option value="교사의 피드백을 신속히 수용하여 발음과 억양을 교정하려 노력하며 학습 성취를 위해 매사 진지함.">피드백 수용 및 성실성</option>
-        </select>
-    </div>
-
-    <button class="btn-gen" onclick="make()">생활기록부 평가 문장 생성 🚀</button>
-
-    <div id="result-area">
-        <textarea id="output" readonly placeholder="단원별 평가 결과가 여기에 생성됩니다..."></textarea>
-        <div class="footer-tools">
-            <div class="byte-box">NEIS 전송 규격: <span id="byte">0</span> Byte</div>
-            <button class="btn-copy" onclick="copy()">클립보드 복사</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    const DB = {
-        "U1": { // 1단원: 인사/소개
-            "L": [{ s: "인사말과 자기소개 듣고 이해하기", H: "기초적인 인사말과 자기소개의 의미를 정확히 파악하며, 상황에 따른 담화의 맥락을 이해하는 능력이 매우 뛰어남.", M: "친숙한 인사말을 듣고 그 의미를 대체로 잘 이해하며 상황에 적절한 반응을 보일 수 있음.", L: "반복되는 인사말의 소리에 집중하며, 시각 자료를 활용하여 기본적인 인사 문장을 이해하려 노력함." }],
-            "S": [{ s: "자신을 소개하고 인사 나누기", H: "자신감 있는 목소리와 매끄러운 억양으로 자신을 소개하며, 상황에 부합하는 정중한 인사말을 유창하게 구사함.", M: "학습한 문형을 활용하여 이름과 인사말을 무난하게 표현하며 의사소통 활동에 성실히 참여함.", L: "교사의 도움을 받아 자신의 이름을 말하고 인사를 나누는 시도 자체에 긍정적인 변화를 보임." }],
-            "R": [{ s: "알파벳 대소문자 구별하여 읽기", H: "알파벳 대소문자의 형태적 특징을 완벽히 인지하고 음가와의 연결이 즉각적이며 문식력의 기초가 견고함.", M: "대부분의 알파벳 대소문자를 정확히 식별하여 소리 내어 읽을 수 있으며 읽기 활동에 열의를 보임.", L: "철자의 모양을 대조하며 대소문자를 식별하려 노력하고, 하나씩 소리 내어 읽는 연습에 성실함." }],
-            "W": [{ s: "알파벳 바르게 쓰기", H: "알파벳의 획순과 방향을 정확히 준수하며 네 줄 선의 규격에 맞춰 바르고 정교하게 쓰는 능력이 탁월함.", M: "알파벳 대소문자를 쓰는 순서에 맞게 쓸 수 있으며 쓰기 과제를 완성도 있게 마무리함.", L: "글자의 모양을 관찰하며 베껴 쓰기를 성실히 수행하고 바른 획순을 익히기 위해 꾸준히 시도함." }]
-        },
-        "U2": { // 2단원: 사물/음소
-            "L": [{ s: "사물의 명칭을 듣고 식별하기", H: "주변 사물을 묘사하는 낱말과 구문을 듣고 그 대상을 정확히 찾아내며 음소 식별 능력이 매우 날카로움.", M: "친숙한 사물의 이름을 듣고 그림과 연결하여 의미를 대체로 바르게 파악하며 활동에 집중함.", L: "핵심 단어의 첫소리에 주의를 기울이며 사물의 이름을 듣고 이해하려는 노력이 돋보임." }],
-            "S": [{ s: "사물의 이름을 묻고 답하기", H: "What's this? 구문을 활용하여 사물을 확인하고 명칭을 답하는 상호작용 과정이 매우 자연스럽고 정확함.", M: "제시된 사물을 보고 학습한 표현을 사용하여 묻고 답할 수 있으며 말하기 활동에 적극적임.", L: "단어 수준에서 사물의 이름을 말하며, 질문에 짧게라도 응답하려는 의사소통 의지를 보임." }],
-            "R": [{ s: "사물 관련 낱말 읽고 파악하기", H: "사물을 나타내는 기초 낱말을 소리와 연결하여 유창하게 읽으며 글자와 그림을 매칭하는 능력이 우수함.", M: "학습한 낱말의 형태를 보고 소리 내어 읽을 수 있으며 읽기 연습을 통해 어휘력을 기르려 노력함.", L: "낱말의 첫 글자를 단서로 사물의 이름을 읽어보려 시도하며 독해의 기초를 다지는 과정에 있음." }],
-            "W": [{ s: "사물 낱말 철자 쓰기", H: "주요 사물 낱말의 철자를 소리와 철자의 관계(Phonics)를 바탕으로 오류 없이 정확하게 인출하여 씀.", M: "그림을 보고 낱말의 철자를 기억하여 쓰거나 베껴 쓰며 쓰기 과제 수행에 집중력을 보임.", L: "낱말 카드를 보고 철자를 천천히 옮겨 적으며 쓰기 기초를 익히는 과정에 성실히 참여함." }]
-        }
-        // 나머지 단원들도 동일한 고품질 데이터 구조로 확장 가능
-    };
-
-    let curLvl = 'H';
-    function selLvl(l) {
-        curLvl = l;
-        document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active'));
-        document.getElementById('btn-'+l).classList.add('active');
-    }
-
-    function updateStd() {
-        const u = document.getElementById('unit').value, d = document.getElementById('domain').value, s = document.getElementById('stdList');
-        s.innerHTML = "";
-        if(DB[u] && DB[u][d]) DB[u][d].forEach((item, i) => s.add(new Option(item.s, i)));
-        else s.add(new Option("데이터 보강 중 (30년 베테랑 감수 중)", ""));
-    }
-
-    function make() {
-        const n = document.getElementById('stdName').value || "이 학생", u = document.getElementById('unit').value, d = document.getElementById('domain').value, i = document.getElementById('stdList').value, a = document.getElementById('att').value;
-        if(!DB[u] || !DB[u][d] || i==="") return alert("선택된 단원의 데이터가 아직 준비되지 않았습니다.");
-        const res = `${n} 학생은 ${DB[u][d][i][curLvl]} 또한 ${a}`;
-        document.getElementById('output').value = res;
-        document.getElementById('byte').innerText = [...res].reduce((acc, c) => acc + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
-    }
-
-    function copy() {
-        const o = document.getElementById('output');
-        if(!o.value) return;
-        o.select(); o.setSelectionRange(0, 99999);
-        document.execCommand('copy');
-        alert("장학사급 고품격 문장이 복사되었습니다! 🏛️");
-    }
-
-    window.onload = updateStd;
-</script>
-</body>
-</html>
-        .footer-tools { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; }
-        .byte-info { font-size: 0.8rem; color: #64748b; }
-        .btn-copy { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <h1>📝 영어 학습발달 전문 생성기</h1>
-
-    <div class="section">
-        <span class="section-title">기본 정보 설정</span>
-        <div class="input-grid">
-            <input type="text" id="name" placeholder="학생 성명">
-            <select id="grade" onchange="initData()"><option value="3">3학년</option><option value="4">4학년</option></select>
-            <select id="domain" onchange="initData()">
-                <option value="L">듣기</option><option value="S">말하기</option><option value="R">읽기</option><option value="W">쓰기</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="section">
-        <span class="section-title">성취기준 선택 (2022 개정 반영)</span>
-        <select id="standardList"></select>
-    </div>
-
-    <div class="section">
-        <span class="section-title">수행 수준 선택</span>
-        <div class="level-group">
-            <button class="level-btn active" onclick="setLevel('H', this)">매우 우수</button>
-            <button class="level-btn" onclick="setLevel('M', this)">보통/양호</button>
-            <button class="level-btn" onclick="setLevel('L', this)">기초 노력</button>
-        </div>
-        <select id="extraAtt" style="margin-top:12px;">
-            <option value="매 수업 성실한 자세로 참여하며 학습 목표를 달성하려는 의지가 매우 강함.">성실 및 목표 지향형</option>
-            <option value="모둠 활동 시 리더십을 발휘하며 동료들과 유연하게 소통하고 협력함.">의사소통 및 협력형</option>
-            <option value="실수를 두려워하지 않고 영어로 표현하려는 적극적인 시도가 매우 돋보임.">적극적 시도 및 도전형</option>
-        </select>
-    </div>
-
-    <button class="btn-generate" onclick="run()">문장 생성하기</button>
-
-    <div id="result-area">
-        <textarea id="output" readonly placeholder="여기에 결과가 생성됩니다..."></textarea>
-        <div class="footer-tools">
-            <div class="byte-info">글자 수: <span id="byte">0</span> Byte</div>
-            <button class="btn-copy" onclick="copy()">복사하기</button>
-        </div>
-    </div>
-</div>
-
-<script>
-    const DB = {
-        "3": {
-            "L": [
-                { s: "[듣기] 알파벳과 낱말의 소리를 식별한다.", H: "알파벳의 음소 단위 소리 차이를 정확히 식별하며, 낱말의 첫소리를 듣고 해당 철자를 인지하는 청각적 식별력이 매우 탁월함.", M: "알파벳 대소문자의 음가를 대체로 구별하며, 익숙한 낱말 소리를 듣고 그림이나 실물과 연결하여 의미를 파악함.", L: "반복되는 음가에 집중하여 들으려 노력하며, 교사의 도움을 받아 알파벳 소리를 식별하는 기초를 다짐." }
-            ],
-            "S": [
-                { s: "[말하기] 인사말을 주고받으며 자기를 소개한다.", H: "학습한 핵심 표현을 바탕으로 상황에 적절한 인사말을 유창하게 구사하며, 이름과 신분 등 자기소개를 자신감 있게 표현함.", M: "기본적인 인사를 주고받을 수 있으며, 정해진 문형을 활용하여 자신의 정보를 상대방에게 무난하게 전달함.", L: "교사의 시범을 보고 짧은 인사말을 따라 말하며, 영어로 대화하려는 시도에 긍정적인 참여 의지를 보임." }
-            ],
-            "R": [
-                { s: "[읽기] 알파벳 대소문자를 식별하여 읽는다.", H: "알파벳 대소문자의 형태적 특징을 명확히 인지하고 있으며, 각 철자의 이름과 음가를 연결하여 유창하게 읽는 능력이 우수함.", M: "대부분의 알파벳 대소문자를 바르게 읽을 수 있으며, 낱말 카드와 시각 자료를 활용한 읽기 활동에 성실함.", L: "철자의 모양을 구별하며 한 글자씩 소리 내어 읽으려 시도하며 읽기 기초 활동에 적극적으로 임함." }
-            ],
-            "W": [
-                { s: "[쓰기] 알파벳 대소문자를 순서에 맞게 쓴다.", H: "알파벳의 획순과 방향을 정확히 숙지하고 있으며, 네 줄 선의 규격에 맞춰 대문자와 소문자를 매우 바르고 정교하게 쓰는 능력이 탁월함.", M: "알파벳 대소문자를 순서에 맞게 쓸 수 있으며, 쓰기 활동 시 집중력을 가지고 과제를 성실하게 완수함.", L: "철자의 모양을 관찰하며 천천히 베껴 쓰기를 수행하고, 바른 획순으로 쓰기 위해 반복적으로 연습함." }
-            ]
-        },
-        "4": {
-            "L": [
-                { s: "[듣기] 일상생활의 대화를 듣고 이해한다.", H: "일상적인 대화의 핵심 내용을 명확히 파악함은 물론, 화자의 의도와 세부 정보까지 정확하게 추출하여 이해하는 청취 역량이 매우 뛰어남.", M: "상황 설명이나 시각적 도움을 바탕으로 대화의 주요 내용을 대부분 바르게 파악하며 전체적인 흐름을 잘 따라감.", L: "반복되는 핵심 단어를 중심으로 대화의 상황을 유추하려 노력하며, 경청하는 학습 태도가 안정적임." }
-            ],
-            "S": [
-                { s: "[말하기] 쉽고 간단한 질문에 답한다.", H: "시간, 장소, 소유 등 일상적인 질문에 대해 적절한 어휘와 문장을 선택하여 즉각적이고 유창하게 대답하는 의사소통 능력이 탁월함.", M: "질문의 의도를 파악하여 학습한 표현을 바탕으로 문장을 구성하여 대답할 수 있으며, 발표 활동에 의욕이 높음.", L: "핵심 낱말 위주로 질문에 응답하며, 상대방과 소통하려는 의지를 가지고 짧은 대답을 이어가려 노력함." }
-            ]
-        }
-    };
-
-    let level = 'H';
-    function setLevel(l, b) { level = l; document.querySelectorAll('.level-btn').forEach(btn => btn.classList.remove('active')); b.classList.add('active'); }
-
-    function initData() {
-        const g = document.getElementById('grade').value, d = document.getElementById('domain').value, s = document.getElementById('standardList');
-        s.innerHTML = "";
-        if(DB[g] && DB[g][d]) DB[g][d].forEach((item, i) => s.add(new Option(item.s, i)));
-        else s.add(new Option("데이터 준비 중", ""));
-    }
-
-    function run() {
-        const n = document.getElementById('name').value || "이 학생", g = document.getElementById('grade').value, d = document.getElementById('domain').value, i = document.getElementById('standardList').value, a = document.getElementById('extraAtt').value;
-        if(i==="") return;
-        const res = `${n} 학생은 ${DB[g][d][i][level]} 또한 ${a}`;
-        document.getElementById('output').value = res;
-        document.getElementById('byte').innerText = [...res].reduce((acc, c) => acc + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
-    }
-
-    function copy() { const o = document.getElementById('output'); o.select(); document.execCommand('copy'); alert("복사 완료!"); }
-    window.onload = initData;
+window.onload = loadDetails;
 </script>
 </body>
 </html>

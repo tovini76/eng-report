@@ -3,99 +3,94 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>초등 영어 교과학습발달상황 통합 관리 허브</title>
-    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <title>평가 관리 메인 홈</title>
     <style>
-        :root { 
-            --primary: #1e3a8a; 
-            --accent: #dc2626; 
-            --bg: #f8fafc; 
-            --card: #ffffff; 
-            --gray-600: #475569;
-            --gray-800: #1e293b;
-        }
-        * { box-sizing: border-box; text-decoration: none; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif; background: var(--bg); margin: 0; padding: 15px; color: var(--gray-800); line-height: 1.6; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-        
-        .header { text-align: center; margin-bottom: 30px; padding-top: 10px; }
-        .header h1 { color: var(--primary); font-size: 1.6rem; margin-bottom: 8px; letter-spacing: -0.5px; }
-        .header p { color: var(--gray-600); font-size: 1rem; margin: 0; word-break: keep-all; line-height: 1.4; }
+        /* 기본 리셋 및 모바일 터치 최적화 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
+        body { background-color: #f1f5f9; color: #334155; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
+        a { text-decoration: none; }
 
-        /* PC: 2단, 모바일: 1단 */
-        .grade-grid { display: grid; gap: 15px; grid-template-columns: 1fr; }
-        @media (min-width: 768px) { .grade-grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
+        /* 모바일 앱 스타일의 중앙 컨테이너 */
+        .app-container { width: 100%; max-width: 500px; }
 
-        .grade-card { background: var(--card); padding: 20px; border-radius: 16px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); transition: transform 0.2s; border: 1px solid #e2e8f0; }
-        
-        .grade-title { font-size: 1.25rem; font-weight: 800; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between; }
-        
-        /* 학년별 테마 */
-        .g3 { border-top: 6px solid #10b981; } .g3 .grade-title { color: #10b981; }
-        .g4 { border-top: 6px solid #3b82f6; } .g4 .grade-title { color: #3b82f6; }
-        .g5 { border-top: 6px solid #f59e0b; } .g5 .grade-title { color: #f59e0b; }
-        .g6 { border-top: 6px solid #8b5cf6; } .g6 .grade-title { color: #8b5cf6; }
+        /* 상단 헤더 */
+        .app-header { text-align: center; margin-bottom: 25px; padding: 25px 20px; background: #fff; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
+        .app-header h1 { font-size: 1.5rem; color: #0f172a; margin-bottom: 5px; letter-spacing: -0.5px; }
+        .app-header p { font-size: 0.95rem; color: #64748b; }
 
-        /* 모바일 최적화의 핵심: 핸드폰에서는 세로(Column), PC에서는 가로(Row) */
-        .btn-group { display: flex; flex-direction: column; gap: 10px; }
-        @media (min-width: 400px) { .btn-group { flex-direction: row; } }
+        /* 학년 리스트 (세로 배열) */
+        .grade-list { display: flex; flex-direction: column; gap: 16px; }
 
-        .btn { flex: 1; text-align: center; padding: 16px 10px; border-radius: 12px; font-weight: 800; font-size: 1.05rem; color: #fff; display: block; border: 1px solid #e2e8f0; }
-        .btn:active { transform: scale(0.98); } /* 모바일 터치 피드백 */
+        /* 학년별 카드 껍데기 */
+        .grade-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
         
-        .btn-3 { background: #d1fae5; color: #047857; border-color: #a7f3d0; } .btn-3:hover { background: #10b981; color: white; border-color: #10b981; }
-        .btn-4 { background: #dbeafe; color: #1d4ed8; border-color: #bfdbfe; } .btn-4:hover { background: #3b82f6; color: white; border-color: #3b82f6; }
-        .btn-5 { background: #fef3c7; color: #b45309; border-color: #fde68a; } .btn-5:hover { background: #f59e0b; color: white; border-color: #f59e0b; }
-        .btn-6 { background: #ede9fe; color: #6d28d9; border-color: #ddd6fe; } .btn-6:hover { background: #8b5cf6; color: white; border-color: #8b5cf6; }
-        
-        .footer-note { text-align: center; margin-top: 30px; font-size: 0.85rem; color: #94a3b8; }
+        /* 카드 상단 띠 (학년 표시) */
+        .card-header { padding: 16px 20px; color: #fff; font-weight: 800; font-size: 1.15rem; display: flex; justify-content: space-between; align-items: center; letter-spacing: -0.5px; }
+
+        /* 학년별 메인 컬러 */
+        .grade-3 .card-header { background: #10b981; } /* 3학년: 초록 */
+        .grade-4 .card-header { background: #3b82f6; } /* 4학년: 파랑 */
+        .grade-5 .card-header { background: #f59e0b; } /* 5학년: 주황 */
+        .grade-6 .card-header { background: #8b5cf6; } /* 6학년: 보라 */
+
+        /* 학기 선택 버튼 영역 */
+        .term-buttons { display: flex; padding: 15px; gap: 12px; background: #fff; }
+        .term-btn { flex: 1; padding: 14px 0; text-align: center; border-radius: 12px; font-weight: 800; font-size: 1.05rem; border: 2px solid #e2e8f0; color: #64748b; background: #f8fafc; transition: 0.2s; }
+        .term-btn:active { transform: scale(0.96); } /* 터치 시 눌리는 효과 */
+
+        /* 활성화된 버튼 색상 (링크가 걸려있는 버튼) */
+        .grade-3 .term-btn.active { background: #d1fae5; color: #047857; border-color: #10b981; }
+        .grade-4 .term-btn.active { background: #dbeafe; color: #1d4ed8; border-color: #3b82f6; }
+        .grade-5 .term-btn.active { background: #fef3c7; color: #b45309; border-color: #f59e0b; }
+        .grade-6 .term-btn.active { background: #ede9fe; color: #6d28d9; border-color: #8b5cf6; }
+
+        /* 비활성화 버튼 (아직 안 만든 페이지) */
+        .disabled { opacity: 0.4; pointer-events: none; background: #f1f5f9; border-color: #cbd5e1; }
     </style>
 </head>
 <body>
+    <div class="app-container">
+        
+        <div class="app-header">
+            <h1>🏆 교과학습발달상황 허브</h1>
+            <p>작업할 학년과 학기를 선택하세요.</p>
+        </div>
 
-<div class="container">
-    <div class="header">
-        <h1>🏫 초등 영어 생기부 관리 허브</h1>
-        <p>2022 개정 지침 기반 학년별 평가 시스템</p>
+        <div class="grade-list">
+            
+            <div class="grade-card grade-3">
+                <div class="card-header"><span>3학년</span> 🎒</div>
+                <div class="term-buttons">
+                    <a href="grade3_1.html" class="term-btn active">1학기</a>
+                    <a href="#" class="term-btn disabled">2학기</a>
+                </div>
+            </div>
+
+            <div class="grade-card grade-4">
+                <div class="card-header"><span>4학년</span> 📘</div>
+                <div class="term-buttons">
+                    <a href="#" class="term-btn disabled">1학기</a>
+                    <a href="#" class="term-btn disabled">2학기</a>
+                </div>
+            </div>
+
+            <div class="grade-card grade-5">
+                <div class="card-header"><span>5학년</span> 📙</div>
+                <div class="term-buttons">
+                    <a href="#" class="term-btn disabled">1학기</a>
+                    <a href="#" class="term-btn disabled">2학기</a>
+                </div>
+            </div>
+
+            <div class="grade-card grade-6">
+                <div class="card-header"><span>6학년</span> 🎓</div>
+                <div class="term-buttons">
+                    <a href="#" class="term-btn disabled">1학기</a>
+                    <a href="#" class="term-btn disabled">2학기</a>
+                </div>
+            </div>
+
+        </div>
     </div>
-
-    <div class="grade-grid">
-        <div class="grade-card g3">
-            <div class="grade-title"><span>3학년 (3rd Grade)</span> 🎒</div>
-            <div class="btn-group">
-                <a href="grade3_1.html" class="btn btn-3">1학기 평가하기</a>
-                <a href="grade3_2.html" class="btn btn-3">2학기 평가하기</a>
-            </div>
-        </div>
-
-        <div class="grade-card g4">
-            <div class="grade-title"><span>4학년 (4th Grade)</span> 📘</div>
-            <div class="btn-group">
-                <a href="grade4_1.html" class="btn btn-4">1학기 평가하기</a>
-                <a href="grade4_2.html" class="btn btn-4">2학기 평가하기</a>
-            </div>
-        </div>
-
-        <div class="grade-card g5">
-            <div class="grade-title"><span>5학년 (5th Grade)</span> 📙</div>
-            <div class="btn-group">
-                <a href="grade5_1.html" class="btn btn-5">1학기 평가하기</a>
-                <a href="grade5_2.html" class="btn btn-5">2학기 평가하기</a>
-            </div>
-        </div>
-
-        <div class="grade-card g6">
-            <div class="grade-title"><span>6학년 (6th Grade)</span> 🎓</div>
-            <div class="btn-group">
-                <a href="grade6_1.html" class="btn btn-6">1학기 평가하기</a>
-                <a href="grade6_2.html" class="btn btn-6">2학기 평가하기</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="footer-note">
-        © 2026 초등 영어 발달사항 매니저. 교육부 지침 기반 평가 시스템.
-    </div>
-</div>
-
 </body>
 </html>

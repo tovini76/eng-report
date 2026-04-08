@@ -3,94 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>평가 관리 메인 홈</title>
+    <title>EduTech Pro - 생기부 관리 대시보드</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
     <style>
-        /* 기본 리셋 및 모바일 터치 최적화 */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: #f1f5f9; color: #334155; padding: 20px; display: flex; justify-content: center; min-height: 100vh; }
-        a { text-decoration: none; }
-
-        /* 모바일 앱 스타일의 중앙 컨테이너 */
-        .app-container { width: 100%; max-width: 500px; }
-
-        /* 상단 헤더 */
-        .app-header { text-align: center; margin-bottom: 25px; padding: 25px 20px; background: #fff; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); }
-        .app-header h1 { font-size: 1.5rem; color: #0f172a; margin-bottom: 5px; letter-spacing: -0.5px; }
-        .app-header p { font-size: 0.95rem; color: #64748b; }
-
-        /* 학년 리스트 (세로 배열) */
-        .grade-list { display: flex; flex-direction: column; gap: 16px; }
-
-        /* 학년별 카드 껍데기 */
-        .grade-card { background: #fff; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; }
+        /* 기본 리셋 및 컬러 팔레트 */
+        :root { 
+            --bg-color: #f4f7f9;
+            --text-main: #1e293b;
+            --text-sub: #64748b;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            
+            /* 학년별 세련된 네온/파스텔 톤 */
+            --g3-color: #0d9488; --g3-glow: rgba(13, 148, 136, 0.15);
+            --g4-color: #2563eb; --g4-glow: rgba(37, 99, 235, 0.15);
+            --g5-color: #ea580c; --g5-glow: rgba(234, 88, 12, 0.15);
+            --g6-color: #7c3aed; --g6-glow: rgba(124, 58, 237, 0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; -webkit-tap-highlight-color: transparent; text-decoration: none; }
         
-        /* 카드 상단 띠 (학년 표시) */
-        .card-header { padding: 16px 20px; color: #fff; font-weight: 800; font-size: 1.15rem; display: flex; justify-content: space-between; align-items: center; letter-spacing: -0.5px; }
+        /* 미래지향적 은은한 배경 */
+        body { background: var(--bg-color); color: var(--text-main); min-height: 100vh; overflow-x: hidden; }
+        body::before {
+            content: ''; position: fixed; top: -50%; left: -50%; width: 200%; height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(244,247,249,1) 50%);
+            z-index: -1; pointer-events: none;
+        }
 
-        /* 학년별 메인 컬러 */
-        .grade-3 .card-header { background: #10b981; } /* 3학년: 초록 */
-        .grade-4 .card-header { background: #3b82f6; } /* 4학년: 파랑 */
-        .grade-5 .card-header { background: #f59e0b; } /* 5학년: 주황 */
-        .grade-6 .card-header { background: #8b5cf6; } /* 6학년: 보라 */
+        /* 상단 히어로 섹션 */
+        .hero { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            padding: 60px 20px 80px 20px;
+            text-align: center;
+            border-radius: 0 0 40px 40px;
+            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.15);
+            position: relative;
+        }
+        .hero h1 { 
+            font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 10px;
+            /* 텍스트 그라데이션 */
+            background: linear-gradient(to right, #60a5fa, #a78bfa, #f472b6);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        }
+        .hero p { color: #94a3b8; font-size: 1.05rem; font-weight: 500; }
 
-        /* 학기 선택 버튼 영역 */
-        .term-buttons { display: flex; padding: 15px; gap: 12px; background: #fff; }
-        .term-btn { flex: 1; padding: 14px 0; text-align: center; border-radius: 12px; font-weight: 800; font-size: 1.05rem; border: 2px solid #e2e8f0; color: #64748b; background: #f8fafc; transition: 0.2s; }
-        .term-btn:active { transform: scale(0.96); } /* 터치 시 눌리는 효과 */
+        /* 대시보드 그리드 컨테이너 */
+        .dashboard { max-width: 1000px; margin: 0 auto; padding: 0 20px; margin-top: -40px; position: relative; z-index: 10; }
+        .grid { display: grid; grid-template-columns: 1fr; gap: 24px; padding-bottom: 50px; }
+        @media (min-width: 600px) { .grid { grid-template-columns: 1fr 1fr; } }
 
-        /* 활성화된 버튼 색상 (링크가 걸려있는 버튼) */
-        .grade-3 .term-btn.active { background: #d1fae5; color: #047857; border-color: #10b981; }
-        .grade-4 .term-btn.active { background: #dbeafe; color: #1d4ed8; border-color: #3b82f6; }
-        .grade-5 .term-btn.active { background: #fef3c7; color: #b45309; border-color: #f59e0b; }
-        .grade-6 .term-btn.active { background: #ede9fe; color: #6d28d9; border-color: #8b5cf6; }
+        /* 글래스모피즘(Glassmorphism) 카드 */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 25px 45px rgba(0,0,0,0.08); }
+        
+        /* 카드 상단 색상 포인트 라인 */
+        .card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; }
+        .g3::before { background: var(--g3-color); }
+        .g4::before { background: var(--g4-color); }
+        .g5::before { background: var(--g5-color); }
+        .g6::before { background: var(--g6-color); }
 
-        /* 비활성화 버튼 (아직 안 만든 페이지) */
-        .disabled { opacity: 0.4; pointer-events: none; background: #f1f5f9; border-color: #cbd5e1; }
+        .card-title { font-size: 1.4rem; font-weight: 800; margin-bottom: 25px; display: flex; align-items: center; justify-content: space-between; }
+        .g3 .card-title { color: var(--g3-color); }
+        .g4 .card-title { color: var(--g4-color); }
+        .g5 .card-title { color: var(--g5-color); }
+        .g6 .card-title { color: var(--g6-color); }
+
+        /* 세련된 필(Pill) 타입 버튼 */
+        .btn-wrapper { display: flex; gap: 12px; }
+        .btn { 
+            flex: 1; padding: 14px 0; text-align: center; border-radius: 50px; font-weight: 700; font-size: 1rem; 
+            background: #fff; border: 1.5px solid transparent; transition: all 0.3s ease; position: relative; overflow: hidden;
+        }
+        
+        /* 호버 시 부드러운 그라데이션 및 네온 글로우 효과 */
+        .g3 .btn.active { color: var(--g3-color); background: var(--g3-glow); border-color: var(--g3-color); }
+        .g3 .btn.active:hover { background: var(--g3-color); color: #fff; box-shadow: 0 8px 20px var(--g3-glow); }
+        
+        .g4 .btn.active { color: var(--g4-color); background: var(--g4-glow); border-color: var(--g4-color); }
+        .g4 .btn.active:hover { background: var(--g4-color); color: #fff; box-shadow: 0 8px 20px var(--g4-glow); }
+        
+        .g5 .btn.active { color: var(--g5-color); background: var(--g5-glow); border-color: var(--g5-color); }
+        .g5 .btn.active:hover { background: var(--g5-color); color: #fff; box-shadow: 0 8px 20px var(--g5-glow); }
+        
+        .g6 .btn.active { color: var(--g6-color); background: var(--g6-glow); border-color: var(--g6-color); }
+        .g6 .btn.active:hover { background: var(--g6-color); color: #fff; box-shadow: 0 8px 20px var(--g6-glow); }
+
+        /* 비활성화 버튼 (은은하게 처리) */
+        .disabled { color: #cbd5e1; border-color: #f1f5f9; background: #f8fafc; pointer-events: none; }
+
+        .footer { text-align: center; margin-top: 20px; color: #94a3b8; font-size: 0.85rem; padding-bottom: 30px; font-weight: 500; }
     </style>
 </head>
 <body>
-    <div class="app-container">
-        
-        <div class="app-header">
-            <h1>🏆 영어교과 나이스 작성 By vini</h1>
-            <p>작업할 학년과 학기를 선택하세요.</p>
-        </div>
 
-        <div class="grade-list">
+    <header class="hero">
+        <h1>EduTech Pro Workspace</h1>
+        <p>2022 개정 영어과 교과학습발달상황 인공지능 지원 시스템</p>
+    </header>
+
+    <main class="dashboard">
+        <div class="grid">
             
-            <div class="grade-card grade-3">
-                <div class="card-header"><span>3학년</span> 🎒</div>
-                <div class="term-buttons">
-                    <a href="grade3_1.html" class="term-btn active">1학기</a>
-                    <a href="#" class="term-btn disabled">2학기</a>
+            <div class="card g3">
+                <div class="card-title"><span>Grade 3</span> 🎒</div>
+                <div class="btn-wrapper">
+                    <a href="grade3_1.html" class="btn active">1학기 평가</a>
+                    <a href="#" class="btn disabled">2학기 준비중</a>
                 </div>
             </div>
 
-            <div class="grade-card grade-4">
-                <div class="card-header"><span>4학년</span> 📘</div>
-                <div class="term-buttons">
-                    <a href="#" class="term-btn disabled">1학기</a>
-                    <a href="#" class="term-btn disabled">2학기</a>
+            <div class="card g4">
+                <div class="card-title"><span>Grade 4</span> 📘</div>
+                <div class="btn-wrapper">
+                    <a href="#" class="btn disabled">1학기 준비중</a>
+                    <a href="#" class="btn disabled">2학기 준비중</a>
                 </div>
             </div>
 
-            <div class="grade-card grade-5">
-                <div class="card-header"><span>5학년</span> 📙</div>
-                <div class="term-buttons">
-                    <a href="#" class="term-btn disabled">1학기</a>
-                    <a href="#" class="term-btn disabled">2학기</a>
+            <div class="card g5">
+                <div class="card-title"><span>Grade 5</span> 📙</div>
+                <div class="btn-wrapper">
+                    <a href="#" class="btn disabled">1학기 준비중</a>
+                    <a href="#" class="btn disabled">2학기 준비중</a>
                 </div>
             </div>
 
-            <div class="grade-card grade-6">
-                <div class="card-header"><span>6학년</span> 🎓</div>
-                <div class="term-buttons">
-                    <a href="#" class="term-btn disabled">1학기</a>
-                    <a href="#" class="term-btn disabled">2학기</a>
+            <div class="card g6">
+                <div class="card-title"><span>Grade 6</span> 🎓</div>
+                <div class="btn-wrapper">
+                    <a href="#" class="btn disabled">1학기 준비중</a>
+                    <a href="#" class="btn disabled">2학기 준비중</a>
                 </div>
             </div>
 
         </div>
-    </div>
+        
+        <div class="footer">
+            Powered by Expert Evaluation System v3.0 by vini
+        </div>
+    </main>
+
 </body>
 </html>

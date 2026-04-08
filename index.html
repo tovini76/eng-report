@@ -15,7 +15,7 @@
             --text-sub: #64748b;
             --border: #e2e8f0;
             
-            /* 학년별 메인 컬러 (신뢰감을 주는 톤) */
+            /* 학년별 메인 컬러 */
             --g3: #059669; /* 3학년: 에메랄드 */
             --g4: #2563eb; /* 4학년: 블루 */
             --g5: #d97706; /* 5학년: 앰버 */
@@ -42,7 +42,7 @@
         .grade-card { background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
         .grade-card:hover { transform: translateY(-3px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
         
-        /* 카드 헤더 (학년별 컬러 라인 적용) */
+        /* 카드 헤더 */
         .card-header { padding: 20px 24px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border); background: #f8fafc; }
         .card-title { font-size: 1.3rem; font-weight: 800; display: flex; align-items: center; gap: 8px; }
         
@@ -57,18 +57,12 @@
         .btn { flex: 1; text-align: center; padding: 14px 0; border-radius: 10px; font-weight: 700; font-size: 1.05rem; transition: all 0.2s; position: relative; }
         .btn:active { transform: scale(0.97); }
 
-        /* 활성화된 버튼 (작업 완료) */
-        .btn.active { color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .g3 .btn.active { background: var(--g3); } .g3 .btn.active:hover { background: #047857; }
-        .g4 .btn.active { background: var(--g4); } .g4 .btn.active:hover { background: #1d4ed8; }
-        .g5 .btn.active { background: var(--g5); } .g5 .btn.active:hover { background: #b45309; }
-        .g6 .btn.active { background: var(--g6); } .g6 .btn.active:hover { background: #6d28d9; }
-
-        /* 비활성화 버튼 (작업 예정) */
-        .btn.disabled { background: #f1f5f9; color: #94a3b8; border: 1px dashed #cbd5e1; pointer-events: none; }
-        
-        /* 알림 태그 */
-        .status-tag { position: absolute; top: -10px; right: -5px; background: #ef4444; color: white; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: 800; box-shadow: 0 2px 4px rgba(239, 68, 68, 0.3); }
+        /* 모든 버튼 활성화 상태 */
+        .btn { color: #fff; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .g3 .btn { background: var(--g3); } .g3 .btn:hover { background: #047857; }
+        .g4 .btn { background: var(--g4); } .g4 .btn:hover { background: #1d4ed8; }
+        .g5 .btn { background: var(--g5); } .g5 .btn:hover { background: #b45309; }
+        .g6 .btn { background: var(--g6); } .g6 .btn:hover { background: #6d28d9; }
 
         .footer { text-align: center; margin-top: 40px; padding-top: 20px; border-top: 1px solid var(--border); color: var(--text-sub); font-size: 0.9rem; }
     </style>
@@ -90,8 +84,8 @@
                     <div class="card-title">🎒 3학년 (3rd Grade)</div>
                 </div>
                 <div class="term-group">
-                    <a href="grade3_1.html" class="btn active">1학기 평가</a>
-                    <a href="grade3_2.html" class="btn active">2학기 평가</a>
+                    <a href="grade3_1.html" class="btn">1학기 평가</a>
+                    <a href="grade3_2.html" class="btn">2학기 평가</a>
                 </div>
             </div>
 
@@ -100,8 +94,8 @@
                     <div class="card-title">📘 4학년 (4th Grade)</div>
                 </div>
                 <div class="term-group">
-                    <a href="#" class="btn disabled">1학기 <span class="status-tag" style="background:#64748b;">준비중</span></a>
-                    <a href="#" class="btn disabled">2학기</a>
+                    <a href="grade4_1.html" class="btn">1학기 평가</a>
+                    <a href="grade4_2.html" class="btn">2학기 평가</a>
                 </div>
             </div>
 
@@ -110,8 +104,8 @@
                     <div class="card-title">📙 5학년 (5th Grade)</div>
                 </div>
                 <div class="term-group">
-                    <a href="#" class="btn disabled">1학기 <span class="status-tag" style="background:#64748b;">준비중</span></a>
-                    <a href="#" class="btn disabled">2학기</a>
+                    <a href="grade5_1.html" class="btn">1학기 평가</a>
+                    <a href="grade5_2.html" class="btn">2학기 평가</a>
                 </div>
             </div>
 
@@ -120,8 +114,8 @@
                     <div class="card-title">🎓 6학년 (6th Grade)</div>
                 </div>
                 <div class="term-group">
-                    <a href="#" class="btn disabled">1학기 <span class="status-tag" style="background:#64748b;">준비중</span></a>
-                    <a href="#" class="btn disabled">2학기</a>
+                    <a href="grade6_1.html" class="btn">1학기 평가</a>
+                    <a href="grade6_2.html" class="btn">2학기 평가</a>
                 </div>
             </div>
 
@@ -129,7 +123,7 @@
         
         <div class="footer">
             Designed for Professional Teachers. <br>
-            © 2026 EduTech Master System. All rights reserved. by vini
+            © 2026 EduTech Master System. All rights reserved. By vini
         </div>
 
     </div>

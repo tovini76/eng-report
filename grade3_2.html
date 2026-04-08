@@ -1,0 +1,245 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3학년 2학기 영어 평가 시스템</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <style>
+        /* 실무 중심의 깔끔하고 정돈된 3학년 전용 UI (에메랄드 테마) */
+        :root { --primary: #047857; --accent: #10b981; --bg: #f8fafc; --border: #cbd5e1; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Pretendard', sans-serif; background: var(--bg); margin: 0; padding: 15px; color: #334155; line-height: 1.6; }
+        
+        .container { max-width: 900px; margin: auto; background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border-top: 6px solid var(--primary); }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; padding-bottom: 15px; border-bottom: 2px solid #e2e8f0; }
+        .header h1 { color: var(--primary); font-size: 1.4rem; margin: 0; font-weight: 800; letter-spacing: -0.5px; }
+        .btn-home { background: #f1f5f9; color: #475569; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; transition: 0.2s; }
+        .btn-home:hover { background: #e2e8f0; color: var(--primary); }
+
+        .section { margin-bottom: 20px; }
+        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 12px; display: block; font-size: 1.05rem; }
+        .section-title::before { content: "▪ "; color: var(--accent); }
+        
+        .input-grid { display: grid; gap: 12px; grid-template-columns: 1fr; margin-bottom: 15px; }
+        @media (min-width: 600px) { .input-grid { grid-template-columns: 120px 1.5fr 1fr; } }
+        
+        select, input, textarea { width: 100%; padding: 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; background: #fff; color: #1e293b; font-weight: 500; transition: 0.2s; }
+        select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
+        
+        #detailList { font-weight: 700; color: #064e3b; border-color: #34d399; background: #ecfdf5; margin-bottom: 15px; }
+        
+        .level-group { display: flex; gap: 8px; margin-bottom: 15px; flex-wrap: wrap; }
+        .level-btn { flex: 1; min-width: 30%; padding: 14px; border: 1.5px solid var(--border); background: #fff; border-radius: 8px; cursor: pointer; font-weight: 700; color: #64748b; font-size: 1rem; transition: 0.2s; }
+        .level-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        
+        .btn-gen { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.15rem; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-gen:active { transform: scale(0.98); }
+        .btn-gen:hover { background: var(--primary); }
+        
+        #result-box { margin-top: 25px; background: #f8fafc; padding: 20px; border-radius: 10px; border: 1.5px solid var(--border); }
+        textarea#output { background: transparent; border: none; height: 140px; font-size: 1.05rem; color: #0f172a; padding: 0; line-height: 1.8; resize: none; }
+        
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .byte { font-weight: 700; color: #475569; font-size: 0.95rem; }
+        .byte span { color: var(--accent); font-weight: 800; font-size: 1.1rem; }
+        .btn-copy { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>🎒 3학년 2학기 교과학습발달상황</h1>
+        <a href="index.html" class="btn-home">메인으로 이동</a>
+    </div>
+
+    <div class="section">
+        <span class="section-title">기본 정보 및 단원 설정</span>
+        <div class="input-grid">
+            <input type="text" id="name" placeholder="학생 성명">
+            <select id="unit" onchange="updateDetails()">
+                <option value="U7">7단원. I Have a Pencil (소유)</option>
+                <option value="U8">8단원. It's Big (상태/크기)</option>
+                <option value="U9">9단원. Who is He? (가족/인물)</option>
+                <option value="U10">10단원. Color (색깔)</option>
+                <option value="U11">11단원. Happy Birthday (축하/감사)</option>
+            </select>
+            <select id="domain" onchange="updateDetails()">
+                <option value="L">듣기 (Listening)</option>
+                <option value="S">말하기 (Speaking)</option>
+                <option value="R">읽기 (Reading)</option>
+                <option value="W">쓰기 (Writing)</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">교육과정 세부 성취기준 (장학사급)</span>
+        <select id="detailList"></select>
+    </div>
+
+    <div class="section">
+        <span class="section-title">도입: 성취 수준 판정</span>
+        <div class="level-group">
+            <button class="level-btn active" id="btn-H" onclick="setLvl('H')">매우 우수 (A)</button>
+            <button class="level-btn" id="btn-M" onclick="setLvl('M')">보통/양호 (B)</button>
+            <button class="level-btn" id="btn-L" onclick="setLvl('L')">기초 노력 (C)</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">전개 및 결론: 관찰 활동 및 정의적 영역</span>
+        <select id="activity" style="margin-bottom: 12px;">
+            <option value="특히, 짝과 함께하는 역할극(Role-play) 상황에서 배운 핵심 구문을 실감 나는 억양으로 적절히 응용함.">역할극(Role-play) 응용력 우수</option>
+            <option value="특히, 챈트(Chant)와 노래 부르기 활동에 주도적으로 참여하며 영어 특유의 리듬을 체득함.">챈트/노래 리듬감 체득</option>
+            <option value="특히, 시각 자료를 활용한 정보 격차(Information Gap) 활동에서 뛰어난 집중력을 발휘함.">수업 활동 정보 처리력 우수</option>
+            <option value="특히, 원어민 발음 및 실생활 대화 자료를 듣고 핵심 정보를 유추하는 능력이 뛰어남.">매체 활용 맥락 이해 우수</option>
+            <option value="특히, 파닉스 규칙을 익히고 영어 단어를 쓰는 워크북 활동 시 꼼꼼하게 과제를 완수함.">워크북/쓰기 과제 성실성</option>
+        </select>
+        <select id="att">
+            <option value="또한, 매 수업에 자기주도적으로 참여하며 오류를 두려워하지 않고 자신감 있게 발화하려는 태도가 훌륭함.">자기주도적 및 자신감</option>
+            <option value="또한, 모둠 활동 시 급우들의 발화를 경청하고 협력적으로 과제를 수행하는 의사소통 모습이 모범적임.">협력적 태도 및 경청</option>
+            <option value="또한, 낯선 외국어 학습에 큰 흥미를 느끼며, 끊임없이 도전하는 긍정적인 학습 태도를 가짐.">긍정적 흥미 및 도전 정신</option>
+            <option value="또한, 교사의 피드백을 수용하여 부족한 부분을 스스로 교정하려 노력하는 등 발전 가능성이 높음.">피드백 수용 및 자기 주도성</option>
+        </select>
+    </div>
+
+    <button class="btn-gen" onclick="make()">평가 결과 장문 생성</button>
+
+    <div id="result-box">
+        <textarea id="output" readonly placeholder="NEIS 입력용 3단 콤보(성취기준 + 관찰활동 + 학습태도) 장문이 이곳에 출력됩니다."></textarea>
+        <div class="footer">
+            <div class="byte">NEIS 기준 바이트: <span id="byteVal">0</span> Byte</div>
+            <button class="btn-copy" onclick="copy()">결과 복사</button>
+        </div>
+    </div>
+</div>
+
+<script>
+// 3학년 2학기 (7~11단원) 장학사급 정밀 데이터베이스
+const DB = {
+    "U7": { 
+        "L": [ 
+            { s: "[어휘 청해] 소유물 명칭 듣고 식별하기", H: "학용품 및 소유물을 나타내는 낱말을 듣고 음운을 명확히 식별하여 해당하는 대상을 즉각 찾아냄.", M: "친숙한 소유물의 이름을 듣고 시각 자료와 바르게 연결하여 그 의미를 파악함.", L: "핵심 낱말의 첫소리에 단서를 두고 소유물의 명칭을 파악하려고 꾸준히 집중함." },
+            { s: "[구문 이해] 소유를 묻는 의문문 파악하기", H: "소유 여부를 묻는 의문문(Do you have~?)을 듣고 화자의 의도와 담화의 상황적 맥락을 완벽히 이해함.", M: "소유를 묻는 질문을 듣고 긍정/부정 응답 상황을 유추하여 적절하게 파악함.", L: "의문문 고유의 억양에 주의를 기울이며 소유를 묻는 상황임을 눈치채고 대화에 집중함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 소유 여부 묻고 답하기", H: "자신의 소유물을 가리키며 묻고 답하는 상호작용 과정에서 구문과 어휘를 활용하여 매우 자연스럽게 소통함.", M: "제시된 사물을 보고 학습한 표현을 사용하여 짝과 함께 소유 여부를 묻고 답하는 활동에 능숙함.", L: "단어 수준에서 사물의 이름을 말하며, 질문에 예/아니오로 응답하려는 의지를 보임." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 학용품 및 소유물 낱말 읽기", H: "학용품과 소유물을 나타내는 낱말을 시각적으로 명확히 인지하여 소리와 문자를 연합해 정확히 읽어냄.", M: "대부분의 학습한 소유물 낱말을 혼동 없이 바르게 식별하여 소리 내어 읽음.", L: "철자의 모양을 식별하며 한 글자씩 소리 내어 읽으려 노력함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 소유물 관련 낱말 쓰기", H: "소유물 관련 낱말의 철자 구성을 완벽히 숙지하여 줄에 맞게 오류 없이 매우 정교하게 씀.", M: "주어진 기준선을 참고하여 학습한 낱말을 순서에 맞게 쓰며 과제를 성실하게 완수함.", L: "단어 카드를 보며 알파벳 모양을 관찰하고 천천히 베껴 쓰며 쓰기 기초를 다짐." } 
+        ]
+    },
+    "U8": { 
+        "L": [ 
+            { s: "[어휘 청해] 크기와 상태를 나타내는 형용사 식별하기", H: "사물의 크기나 상태를 묘사하는 형용사들을 듣고 즉각적으로 대조하여 대상을 명확히 찾아냄.", M: "기초적인 상태 묘사 형용사를 듣고 그림의 상황과 바르게 연결하여 그 의미를 파악함.", L: "형용사의 핵심 소리에 단서를 두고 묘사하는 대상을 파악하려고 꾸준히 집중함." }
+        ],
+        "S": [ 
+            { s: "[상태 묘사] 사물의 크기와 상태 묘사하기", H: "It's big 등 상태를 나타내는 문장을 실감 나는 억양과 제스처를 곁들여 유창하게 발화함.", M: "사물의 특징을 나타내는 기초 문장을 구성하여 짝에게 알맞게 묘사함.", L: "상태를 나타내는 형용사 단어를 따라 말하며 묘사 활동에 긍정적으로 참여함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 상태 및 크기 형용사 읽기", H: "상태나 크기를 나타내는 형용사 낱말을 철자 규칙에 맞게 자신감 있고 유창하게 읽음.", M: "학습한 상태 묘사 낱말의 모양을 식별하여 혼동 없이 바르게 소리 내어 읽음.", L: "알파벳 소리를 떠올리며 형용사 낱말을 한 글자씩 소리 내어 읽어보려 시도함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 형용사 철자 쓰기", H: "상태를 나타내는 형용사 낱말의 쓰는 순서와 철자 구조를 지키며 매우 깔끔하게 씀.", M: "알파벳 대소문자의 높낮이를 인지하여 기준선에 맞게 형용사 단어를 잘 씀.", L: "알파벳 모양을 보고 천천히 옮겨 적으며 쓰기 연습에 성실함." } 
+        ]
+    },
+    "U9": {
+        "L": [ 
+            { s: "[구문 이해] 인물 및 대명사(he/she) 지칭 파악하기", H: "인물을 묻고 답하는 대화를 듣고, 인칭 대명사(he/she)의 차이를 완벽히 구별하여 대상을 찾아냄.", M: "인물을 지칭하는 대화를 듣고 가족 구성원 등 해당하는 대상을 대체로 바르게 파악함.", L: "인물을 묻는 의문사 소리에 익숙해지려 노력하며 시각 자료를 바탕으로 의미를 유추함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 가족 소개 및 인물 묻고 답하기", H: "자신의 가족이나 주변 인물을 영어로 자신 있게 소개하며 묻고 답하는 상호작용을 주도함.", M: "학습한 가족 명칭과 대명사를 사용하여 인물을 소개하고 기초 대화를 원만히 나눔.", L: "가족 관련 낱말을 소리 내어 말하며 짝과 함께 인물을 묻는 활동에 즐겁게 참여함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 가족 명칭 낱말 읽기", H: "가족 관계를 나타내는 낱말을 보고 해당 철자를 소리와 완벽하게 대응시켜 자연스럽게 읽어냄.", M: "학습한 가족 명칭 낱말을 소리 내어 읽고 그에 알맞은 그림을 바르게 연결함.", L: "낱말의 첫 알파벳 소리를 단서로 가족 명칭을 천천히 읽어보려 함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 가족 명칭 낱말 쓰기", H: "가족을 나타내는 낱말의 철자 체계를 정확히 이해하여 시각 자료 없이도 완벽하게 씀.", M: "학습한 가족 낱말을 네 줄 선에 맞추어 깔끔하고 바르게 베껴 쓸 수 있음.", L: "낱말 카드를 확인하며 한 글자씩 천천히 옮겨 적고 단어 쓰기 과제에 임함." } 
+        ]
+    },
+    "U10": {
+        "L": [ 
+            { s: "[어휘 청해] 색상 명칭 듣고 식별하기", H: "다양한 색깔을 나타내는 낱말을 듣고 음가를 정확히 구별하여 해당하는 색상을 즉각 찾아냄.", M: "색깔 소리를 듣고 그 의미를 대체로 바르게 구별하여 대상 색상을 파악함.", L: "색깔 낱말 소리에 집중하며 주변의 사물과 색을 매칭하려 노력함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 색상 묻고 답하기", H: "What color is it? 구문을 활용하여 색상을 묻고 해당하는 영어 낱말로 자연스럽게 대답함.", M: "사물의 색깔을 묻고 답하는 활동에서 영어 색상 낱말을 적절히 활용함.", L: "색상 낱말 위주로 대답하며, 색깔을 묻는 문장을 따라 말하려 노력함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 색상 낱말 읽기", H: "색상을 나타내는 다양한 낱말을 보고 철자를 명확히 인지하여 유창하게 읽을 수 있음.", M: "색상을 나타내는 낱말 카드를 보고 형태를 구별하여 소리 내어 읽음.", L: "색깔 낱말의 첫 글자를 단서로 삼아 천천히 발음해 보려 노력함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 색상 낱말 쓰기", H: "색상 낱말을 보고 철자의 순서와 규격에 맞게 형태적 오류 없이 정확히 씀.", M: "색깔을 나타내는 낱말을 교재에 제시된 선에 맞추어 성실하게 베껴 씀.", L: "색상 낱말을 보며 천천히 옮겨 적고 쓰는 순서를 익히기 위해 연습함." } 
+        ]
+    },
+    "U11": {
+        "L": [ 
+            { s: "[담화 이해] 축하와 감사 인사 듣고 파악하기", H: "생일 등 축하하는 상황과 감사 인사가 오가는 대화를 듣고 화자의 의도와 맥락을 명확하게 파악함.", M: "축하와 감사를 전하는 대화를 듣고 핵심 표현과 긍정적인 상황을 대체로 구별함.", L: "축하 인사말(Happy Birthday 등)의 핵심 소리에 주의를 기울이며 대화 상황을 유추하려 노력함." }
+        ],
+        "S": [ 
+            { s: "[구어 소통] 상황에 맞게 축하/감사 표현하기", H: "생일을 축하하고 감사하는 표현을 감정이 실린 억양과 제스처를 사용하여 자연스럽게 구사함.", M: "학습한 문형을 활용하여 짝에게 축하의 말을 전하고 답하는 상호작용에 적극적임.", L: "감사와 축하의 말을 따라 말하며 긍정적인 분위기로 대화에 참여함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 나이(숫자) 관련 낱말 읽기", H: "나이 표현에 쓰이는 숫자 낱말을 소리와 철자 규칙에 맞게 자신감 있고 유창하게 읽음.", M: "학습한 숫자 낱말의 모양을 식별하여 소리 내어 읽고 의미를 이해함.", L: "숫자 낱말을 한 글자씩 소리 내어 읽어보려 시도함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 나이/숫자 관련 낱말 쓰기", H: "나이 표현에 사용되는 숫자 낱말의 철자를 오류 없이 빈칸에 정확하게 씀.", M: "나이와 관련된 숫자 낱말을 보고 네 줄 선에 맞추어 바른 모양으로 깔끔하게 베껴 씀.", L: "단어 카드를 확인하며 숫자 낱말을 천천히 옮겨 적는 활동에 성실히 참여함." } 
+        ]
+    }
+};
+
+let curLvl = 'H';
+function setLvl(l) { 
+    curLvl = l; 
+    document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); 
+    document.getElementById('btn-'+l).classList.add('active'); 
+}
+
+function updateDetails() {
+    const u = document.getElementById('unit').value;
+    const d = document.getElementById('domain').value;
+    const s = document.getElementById('detailList');
+    s.innerHTML = "";
+    
+    if(DB[u] && DB[u][d]) {
+        DB[u][d].forEach((item, i) => s.add(new Option(item.s, i)));
+    } else {
+        s.add(new Option("해당 영역의 세부 항목이 없습니다.", ""));
+    }
+}
+
+function make() {
+    const n = document.getElementById('name').value || "이 학생";
+    const u = document.getElementById('unit').value;
+    const d = document.getElementById('domain').value;
+    const i = document.getElementById('detailList').value;
+    const act = document.getElementById('activity').value;
+    const att = document.getElementById('att').value;
+    
+    if(!DB[u] || !DB[u][d] || i === "") return alert("세부 항목을 선택하세요.");
+    
+    // 장학사급 3단 콤보
+    const res = `${n} 학생은 ${DB[u][d][i][curLvl]} ${act} ${att}`;
+    document.getElementById('output').value = res;
+    
+    // NEIS 3바이트 계산
+    document.getElementById('byteVal').innerText = [...res].reduce((acc, c) => acc + (c.charCodeAt(0) > 128 ? 3 : 1), 0);
+}
+
+function copy() { 
+    const o = document.getElementById('output'); 
+    if(!o.value) return; 
+    o.select(); document.execCommand('copy'); 
+    alert("3학년 2학기 평가 문장이 클립보드에 복사되었습니다!"); 
+}
+
+// 초기화
+window.onload = updateDetails;
+</script>
+</body>
+</html>

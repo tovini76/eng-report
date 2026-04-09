@@ -11,26 +11,36 @@
         body { background: var(--bg); margin: 0; padding: 15px; color: #334155; line-height: 1.6; }
         .container { max-width: 900px; margin: auto; background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border-top: 6px solid var(--primary); }
         .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
-        .header h1 { color: var(--primary); font-size: 1.4rem; margin: 0; }
-        .btn-home { background: #f1f5f9; color: #475569; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--border); }
+        .header h1 { color: var(--primary); font-size: 1.4rem; margin: 0; letter-spacing: -0.5px; }
+        .btn-home { background: #f1f5f9; color: #475569; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--border); transition: 0.2s; }
+        .btn-home:hover { background: #e2e8f0; color: var(--primary); }
         .section { margin-bottom: 20px; }
-        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 12px; display: block; }
+        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 12px; display: block; font-size: 1.05rem; }
+        .section-title::before { content: "▪ "; color: var(--accent); }
         .input-grid { display: grid; gap: 12px; grid-template-columns: 1fr; margin-bottom: 15px; }
         @media (min-width: 600px) { .input-grid { grid-template-columns: 120px 1.5fr 1fr; } }
-        select, input, textarea { width: 100%; padding: 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; transition: 0.2s; }
+        select, input, textarea { width: 100%; padding: 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; transition: 0.2s; font-weight: 500; }
         select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
+        #detailList { font-weight: 700; color: #064e3b; border-color: #34d399; background: #ecfdf5; margin-bottom: 15px; }
         .level-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
         .level-btn { flex: 1; min-width: 30%; padding: 14px; border: 1.5px solid var(--border); background: #fff; border-radius: 8px; cursor: pointer; font-weight: 700; color: #64748b; transition: 0.2s; }
         .level-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
-        .btn-gen { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.15rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
-        textarea#output { width: 100%; background: #f8fafc; border: 1.5px solid var(--border); height: 140px; font-size: 1.05rem; padding: 15px; border-radius: 8px; resize: none; margin-top: 20px; }
+        .btn-gen { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.15rem; font-weight: 800; cursor: pointer; margin-top: 10px; transition: 0.2s; }
+        .btn-gen:active { transform: scale(0.98); }
+        .btn-gen:hover { background: var(--primary); }
+        #result-box { margin-top: 25px; background: #f8fafc; padding: 20px; border-radius: 10px; border: 1.5px solid var(--border); }
+        textarea#output { background: transparent; border: none; height: 140px; font-size: 1.05rem; color: #0f172a; padding: 0; line-height: 1.8; resize: none; width: 100%; }
+        .footer { display: flex; justify-content: space-between; align-items: center; margin-top: 15px; border-top: 1px solid var(--border); padding-top: 15px; }
+        .byte { font-weight: 700; color: #475569; font-size: 0.95rem; }
+        .byte span { color: var(--accent); font-weight: 800; font-size: 1.1rem; }
+        .btn-copy { background: var(--primary); color: white; border: none; padding: 12px 24px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="header">
         <h1>🎒 3학년 2학기 (YBM 김혜리)</h1>
-        <a href="index.html" class="btn-home">메인으로</a>
+        <a href="index.html" class="btn-home">메인으로 이동</a>
     </div>
 
     <div class="section">
@@ -38,19 +48,25 @@
         <div class="input-grid">
             <input type="text" id="name" placeholder="학생 성명">
             <select id="unit" onchange="updateDetails()">
-                <option value="U7">7단원. What Color Is It? (색깔)</option>
+                <option value="U7">7단원. What Color Is It? (색깔/명칭)</option>
                 <option value="U8">8단원. Do You Have a Ruler? (소유/학용품)</option>
-                <option value="U9">9단원. How Old Are You? (나이)</option>
+                <option value="U9">9단원. How Old Are You? (나이/숫자)</option>
                 <option value="U10">10단원. He's My Dad. (가족/인물)</option>
-                <option value="U11">11단원. How's the Weather? (날씨)</option>
+                <option value="U11">11단원. How's the Weather? (날씨/기후)</option>
             </select>
             <select id="domain" onchange="updateDetails()">
-                <option value="L">듣기</option><option value="S">말하기</option><option value="R">읽기</option><option value="W">쓰기</option>
+                <option value="L">듣기 (Listening)</option>
+                <option value="S">말하기 (Speaking)</option>
+                <option value="R">읽기 (Reading)</option>
+                <option value="W">쓰기 (Writing)</option>
             </select>
         </div>
     </div>
 
-    <div class="section"><span class="section-title">교육과정 세부 성취기준</span><select id="detailList"></select></div>
+    <div class="section">
+        <span class="section-title">교육과정 세부 성취기준 (장학사급)</span>
+        <select id="detailList"></select>
+    </div>
 
     <div class="section">
         <span class="section-title">도입: 성취 수준 판정</span>
@@ -64,50 +80,108 @@
     <div class="section">
         <span class="section-title">전개 및 결론: 관찰 활동 및 정의적 영역</span>
         <select id="activity" style="margin-bottom: 12px;">
-            <option value="특히, 짝과 함께하는 대화(Role-play) 상황에서 배운 핵심 구문을 실감 나는 억양으로 응용함.">대화/역할극(Role-play) 응용력 우수</option>
-            <option value="특히, 챈트(Chant)와 노래 부르기 활동에 주도적으로 참여하며 리듬을 체득함.">챈트/노래 리듬감 체득</option>
+            <option value="특히, 짝과 함께하는 대화(Role-play) 상황에서 배운 핵심 구문을 실감 나는 억양으로 적절히 응용함.">대화/역할극(Role-play) 응용력 우수</option>
+            <option value="특히, 챈트(Chant)와 노래 부르기 활동에 주도적으로 참여하며 영어 특유의 리듬을 체득함.">챈트/노래 리듬감 체득</option>
+            <option value="특히, 교실 놀이와 게임 활동에서 뛰어난 집중력과 순발력을 발휘하며 적극적으로 참여함.">수업 놀이/게임 참여도 우수</option>
+            <option value="특히, 원어민 발음 및 멀티미디어 자료를 듣고 핵심 내용을 빠르게 유추하는 능력이 뛰어남.">매체 활용 듣기/이해 우수</option>
+            <option value="특히, 알파벳과 단어를 쓰는 활동 시 바른 자세로 꼼꼼하게 과제를 완수하는 성실함이 돋보임.">알파벳/단어 쓰기 과제 성실성</option>
         </select>
         <select id="att">
-            <option value="또한, 매 수업에 자기주도적으로 참여하며 오류를 두려워하지 않고 발화하려는 태도가 훌륭함.">자기주도적 및 자신감</option>
-            <option value="또한, 자신의 학습을 스스로 점검하고 기초를 다지기 위해 꾸준히 노력하는 모습이 훌륭함.">학습 점검 및 자기 주도성</option>
+            <option value="또한, 매 수업에 자기주도적으로 참여하며 오류를 두려워하지 않고 자신감 있게 발화하려는 태도가 훌륭함.">자기주도적 및 자신감</option>
+            <option value="또한, 모둠 활동 시 급우들의 발화를 경청하고 협력적으로 활동에 임하는 의사소통 모습이 모범적임.">협력적 태도 및 경청</option>
+            <option value="또한, 낯선 외국어 학습에 큰 흥미를 느끼며, 끊임없이 발화에 도전하는 긍정적인 학습 태도를 가짐.">긍정적 흥미 및 도전 정신</option>
+            <option value="또한, 자신의 학습을 스스로 점검하고 기초를 다지기 위해 꾸준히 노력하는 등 발전 가능성이 높음.">학습 점검 및 자기 주도성</option>
         </select>
     </div>
 
     <button class="btn-gen" onclick="make()">평가 결과 장문 생성</button>
-    <textarea id="output" readonly></textarea>
+
+    <div id="result-box">
+        <textarea id="output" readonly placeholder="NEIS 입력용 3단 콤보(성취기준 + 관찰활동 + 학습태도) 장문이 이곳에 출력됩니다."></textarea>
+        <div class="footer">
+            <div class="byte">NEIS 기준 바이트: <span id="byteVal">0</span> Byte</div>
+            <button class="btn-copy" onclick="copy()">결과 복사</button>
+        </div>
+    </div>
 </div>
 
 <script>
+// YBM 김혜리 3학년 2학기 (7~11단원) 장학사급 정밀 데이터베이스 완벽 이식
 const DB = {
-    "U7": { 
-        "L": [{ s: "[청해] 색상 명칭 듣고 식별하기", H: "색깔 낱말을 듣고 해당하는 색상을 즉각 찾아냄.", M: "기본적인 색깔 낱말을 듣고 시각 자료와 바르게 연결함.", L: "색깔 낱말의 소리에 단서를 두고 파악하려고 집중함." }],
-        "S": [{ s: "[소통] 색상 묻고 답하기", H: "사물을 가리키며 색상을 묻고 답하는 과정에서 자연스럽게 소통함.", M: "학습한 색상 표현을 사용하여 짝과 묻고 답함.", L: "색깔의 이름을 말하며 짧게 응답하려는 의지를 보임." }],
-        "R": [{ s: "[독해] 색상 낱말 읽기", H: "학습한 색상 낱말을 명확하게 구별하여 정확히 읽어냄.", M: "색깔을 나타내는 기초 낱말을 식별하여 소리 내어 읽음.", L: "낱말의 첫 글자 모양을 식별하며 천천히 읽으려 노력함." }],
-        "W": [{ s: "[쓰기] 색상 낱말 쓰기", H: "색상 낱말의 철자 구성을 인지하여 매우 깔끔하게 씀.", M: "색깔을 나타내는 낱말을 기준선에 맞게 성실히 베껴 씀.", L: "낱말 모양을 보고 천천히 옮겨 적으며 쓰기를 연습함." }]
+    "U7": { // What Color Is It?
+        "L": [ 
+            { s: "[어휘 청해] 색상 명칭 듣고 식별하기", H: "다양한 색깔을 나타내는 낱말을 듣고 음가를 정확히 구별하여 해당하는 색상을 즉각 찾아냄.", M: "기본적인 색깔 낱말을 듣고 시각 자료와 바르게 연결하여 그 의미를 파악함.", L: "색깔 낱말의 첫소리에 단서를 두고 색상을 파악하려고 꾸준히 집중함." },
+            { s: "[구문 이해] 색상을 묻고 답하는 말 파악하기", H: "색깔을 묻고 답하는 말(What color is it?)을 듣고, 묻는 의도와 대상 색상을 완벽히 이해함.", M: "사물의 색깔을 묻는 질문을 듣고 상황을 파악하여 적절한 색상을 유추함.", L: "의문문 고유의 억양에 주의를 기울이며 색깔을 묻는 상황임을 인지하려 함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 색상 묻고 답하기", H: "사물을 가리키며 색상을 묻고 답하는 상호작용 과정에서 매우 자연스럽게 의사소통함.", M: "제시된 사물을 보고 학습한 색상 표현을 사용하여 짝과 함께 묻고 답하는 활동에 능숙함.", L: "단어 수준에서 색깔의 이름을 말하며, 질문에 짧게라도 응답하려는 의지를 보임." } 
+        ],
+        "R": [ 
+            { s: "[시각적 문식성] 색상 관련 낱말 읽기", H: "학습한 색상 낱말을 명확하게 구별하고, 소리와 문자를 연합하여 정확히 읽어냄.", M: "색깔을 나타내는 기초 낱말을 식별하여 무난하게 소리 내어 읽음.", L: "낱말의 첫 글자 모양을 식별하며 천천히 읽으려 노력함." } 
+        ],
+        "W": [ 
+            { s: "[쓰기 기초] 색상 낱말 베껴 쓰기", H: "색상 낱말의 철자 구성을 인지하여 비율을 고려해 매우 깔끔하게 씀.", M: "색깔을 나타내는 낱말을 기준선에 맞게 성실히 베껴 씀.", L: "낱말 모양을 보고 천천히 옮겨 적으며 쓰기 연습에 성실함." } 
+        ]
     },
-    "U8": { 
-        "L": [{ s: "[청해] 학용품 소유 명칭 듣기", H: "학용품 낱말을 듣고 해당하는 대상을 빠르고 정확하게 찾음.", M: "학용품 이름을 듣고 그림 카드와 바르게 연결함.", L: "소유물 이름 소리에 집중하며 파악하려 함." }],
-        "S": [{ s: "[소통] 소유 여부 묻고 답하기", H: "Do you have 구문으로 소유를 묻고 원만히 상호작용함.", M: "학용품 소유 여부를 짝과 함께 대화함.", L: "소유물 낱말 위주로 말하며 짧은 응답으로 참여함." }],
-        "R": [{ s: "[독해] 학용품 낱말 읽기", H: "학용품을 나타내는 낱말을 소리와 철자 규칙에 맞게 유창하게 읽음.", M: "소유물 낱말 모양을 식별하여 소리 내어 읽고 의미를 이해함.", L: "학용품 낱말을 한 글자씩 소리 내어 읽어보려 함." }],
-        "W": [{ s: "[쓰기] 학용품 낱말 쓰기", H: "학용품 낱말의 철자 구성을 이해하여 빈칸에 정확히 씀.", M: "학용품 관련 낱말을 선에 맞추어 깔끔하게 베껴 씀.", L: "단어 카드를 확인하며 학용품 낱말을 옮겨 적음." }]
+    "U8": { // Do You Have a Ruler?
+        "L": [ 
+            { s: "[어휘 청해] 학용품 및 소유물 명칭 식별하기", H: "다양한 학용품의 명칭을 듣고 대상을 즉각적으로 찾아내며, 정보 처리 능력이 우수함.", M: "친숙한 학용품의 이름을 듣고 그림 카드와 바르게 연결하여 그 의미를 파악함.", L: "핵심 낱말의 소리에 집중하며 소유물의 명칭을 파악하려고 함." },
+            { s: "[담화 이해] 소유 여부를 묻고 답하는 말 파악하기", H: "소유 여부를 묻고 답하는 대화(Do you have~?)를 듣고 긍정과 부정의 응답을 완벽하게 구별하여 이해함.", M: "소유를 묻는 대화를 듣고 화자가 가진 물건을 대체로 바르게 유추함.", L: "소유를 묻는 핵심 동사에 주의를 기울이며 대화에 참여하려 함." }
+        ],
+        "S": [ 
+            { s: "[구어 소통] 학용품 소유 묻고 답하기", H: "자신이 가진 물건을 유창하게 말하고, 상대방의 소유 여부를 묻는 의문문을 명확히 구사함.", M: "학습한 표현을 사용하여 자신이 가진 학용품을 바르게 표현하고 소통함.", L: "학용품 낱말 위주로 대답하며 소유 상태를 표현하려는 의지를 보임." } 
+        ],
+        "R": [ 
+            { s: "[시각적 문식성] 학용품 낱말 읽기", H: "학용품을 나타내는 낱말을 시각적으로 인지하여 자연스럽게 소리 내어 읽어냄.", M: "학습한 학용품 낱말 카드를 보고 소리 내어 바르게 읽음.", L: "첫 알파벳 소리를 단서로 물건의 이름을 더듬더듬 읽어보려 함." } 
+        ],
+        "W": [ 
+            { s: "[쓰기 기초] 학용품 낱말 쓰기", H: "학용품 낱말의 철자 체계를 정확히 이해하여 철자 오류 없이 완벽하게 씀.", M: "예시를 참고하여 학용품 낱말을 성실하게 적을 수 있음.", L: "단어 카드를 보며 알파벳을 천천히 따라 적으며 쓰기를 연습함." } 
+        ]
     },
-    "U9": { 
-        "L": [{ s: "[청해] 나이/숫자 듣고 식별하기", H: "나이를 나타내는 숫자 낱말을 듣고 해당하는 수량을 즉각 찾아냄.", M: "숫자 소리를 듣고 나이를 대체로 바르게 파악함.", L: "나이를 묻는 소리에 주의를 기울이며 유추하려 노력함." }],
-        "S": [{ s: "[소통] 나이 묻고 답하기", H: "How old are you 구문으로 나이를 묻고 자연스럽게 대답함.", M: "영어 숫자를 활용하여 나이를 묻고 답하는 활동에 능숙함.", L: "숫자 위주로 대답하며 나이를 표현하려 노력함." }],
-        "R": [{ s: "[독해] 나이 관련 낱말 읽기", H: "나이 표현에 쓰이는 숫자 낱말을 철자 규칙에 맞게 유창하게 읽음.", M: "학습한 숫자 낱말 모양을 식별하여 소리 내어 읽음.", L: "숫자 낱말을 한 글자씩 소리 내어 읽어보려 시도함." }],
-        "W": [{ s: "[쓰기] 나이/숫자 낱말 쓰기", H: "나이 표현 숫자 낱말의 철자를 오류 없이 정확하게 씀.", M: "숫자 낱말을 보고 네 줄 선에 맞추어 깔끔하게 베껴 씀.", L: "숫자 낱말을 천천히 옮겨 적는 활동에 성실히 참여함." }]
+    "U9": { // How Old Are You?
+        "L": [ 
+            { s: "[어휘 청해] 나이/숫자 관련 낱말 식별하기", H: "나이를 나타내는 숫자 낱말을 듣고 음가를 정확히 구별하여 해당하는 수량을 즉각 찾아냄.", M: "숫자 소리를 듣고 그 의미를 대체로 바르게 구별하여 나이를 파악함.", L: "수사 낱말 소리에 집중하며 나이를 묻는 상황임을 구별하려 노력함." },
+            { s: "[구문 이해] 나이를 묻는 대화 파악하기", H: "나이를 묻고 답하는 대화를 듣고, 화자의 나이에 대한 세부 정보를 완벽히 추출함.", M: "나이를 묻고 답하는 대화에서 핵심 숫자 정보를 대체로 잘 이해함.", L: "나이를 나타내는 수사 소리에 주의를 기울이며 대화 상황을 이해하려 함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 나이 묻고 답하기", H: "How old are you 구문을 활용하여 나이를 묻고 영어 숫자를 사용하여 자연스럽게 대답함.", M: "영어 숫자를 활용하여 나이를 묻고 답하는 활동에 능숙함.", L: "숫자 낱말 위주로 대답하며, 나이를 묻는 문장을 따라 말하려 노력함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 나이/숫자 낱말 읽기", H: "나이 표현에 쓰이는 숫자 낱말을 보고 철자를 명확히 인지하여 유창하게 읽을 수 있음.", M: "학습한 숫자 낱말 카드를 보고 형태를 구별하여 소리 내어 읽음.", L: "낱말의 첫 글자를 단서로 삼아 천천히 발음해 보려 노력함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 나이/숫자 낱말 쓰기", H: "나이를 나타내는 숫자 낱말을 보고 철자의 순서와 규격에 맞게 형태적 오류 없이 정확히 씀.", M: "학습한 숫자 낱말을 교재에 제시된 선에 맞추어 성실하게 베껴 씀.", L: "숫자 낱말을 보며 천천히 옮겨 적고 쓰는 순서를 익히기 위해 연습함." } 
+        ]
     },
-    "U10": { 
-        "L": [{ s: "[청해] 가족 명칭 듣고 식별하기", H: "가족 명칭을 듣고 대상을 빠르고 정확하게 찾아냄.", M: "가족 명칭을 듣고 그림 카드와 바르게 연결함.", L: "가족 명칭 첫소리에 집중하며 의미를 파악하려 함." }],
-        "S": [{ s: "[소통] 가족 소개하기", H: "가족을 소개하는 구문을 활용하여 유창하게 말하고 대화함.", M: "자신의 가족 구성원을 바르게 소개함.", L: "가족 명칭 위주로 말하며 짧은 응답으로 대화에 참여함." }],
-        "R": [{ s: "[독해] 가족 낱말 읽기", H: "가족을 나타내는 낱말을 철자 규칙에 맞게 유창하게 읽음.", M: "가족 명칭 낱말의 모양을 식별하여 소리 내어 읽음.", L: "가족 낱말을 한 글자씩 소리 내어 읽어보려 시도함." }],
-        "W": [{ s: "[쓰기] 가족 낱말 쓰기", H: "가족 명칭 철자 구성을 이해하여 빈칸에 매우 정확하게 씀.", M: "가족 관련 낱말을 선에 맞추어 깔끔하게 베껴 씀.", L: "가족 낱말을 천천히 옮겨 적는 활동에 참여함." }]
+    "U10": { // He's My Dad.
+        "L": [ 
+            { s: "[어휘 청해] 가족 명칭 듣고 식별하기", H: "가족을 나타내는 명칭을 듣고 음운을 식별하여 해당하는 대상을 빠르고 정확하게 찾아냄.", M: "배운 가족 명칭을 듣고 그림 카드와 바르게 연결하여 의미를 파악함.", L: "가족 명칭의 첫소리에 집중하며 낱말의 의미를 파악하려 시도함." },
+            { s: "[구문 이해] 인물 소개 대화 파악하기", H: "인물을 지칭하고 소개하는 대화를 듣고 성별 대명사(he/she)와 관계를 명확하게 파악함.", M: "누구인지 묻고 가족을 소개하는 대화를 듣고 대상을 대체로 구별함.", L: "인물을 묻는 핵심 표현에 주의를 기울이며 대화 상황을 유추하려 노력함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 가족 소개 및 인물 지칭하기", H: "가족을 소개하는 구문(He's/She's ~)을 활용하여 유창하게 말하고 대화를 이끌어감.", M: "학습한 문형을 활용하여 자신의 가족 구성원을 바르게 소개함.", L: "가족 명칭 위주로 말하며 짧은 응답으로 대화에 참여함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 가족 명칭 낱말 읽기", H: "가족을 나타내는 낱말을 소리와 철자 규칙에 맞게 자신감 있고 유창하게 읽음.", M: "학습한 가족 명칭 낱말의 모양을 식별하여 소리 내어 읽고 의미를 이해함.", L: "알파벳 소리를 떠올리며 가족 낱말을 한 글자씩 소리 내어 읽어보려 시도함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 가족 명칭 낱말 쓰기", H: "가족 명칭의 철자 구성을 이해하여 빈칸에 오류 없이 매우 정확하게 씀.", M: "가족 관련 낱말을 보고 네 줄 선에 맞추어 바른 모양으로 깔끔하게 베껴 씀.", L: "단어 카드를 확인하며 가족 낱말을 천천히 옮겨 적는 활동에 성실히 참여함." } 
+        ]
     },
-    "U11": { 
-        "L": [{ s: "[청해] 날씨 낱말 식별하기", H: "여러 날씨 낱말을 듣고 의미를 정확히 인지하여 매칭함.", M: "날씨 낱말을 듣고 알맞은 그림을 찾아내어 의미를 파악함.", L: "날씨 낱말 소리에 익숙해지려 노력하며 집중하여 들음." }],
-        "S": [{ s: "[소통] 날씨 묻고 답하기", H: "날씨를 묻고 현재 날씨에 맞게 유창하게 대답함.", M: "날씨를 묻고 답하는 기본 대화를 원만히 주고받음.", L: "날씨 낱말을 말하며 현재 날씨를 표현하려 시도함." }],
-        "R": [{ s: "[독해] 날씨 관련 낱말 읽기", H: "다양한 날씨 낱말을 인지하여 정확한 발음으로 빠르게 읽음.", M: "날씨 학습 낱말을 보고 소리 내어 바르게 읽을 수 있음.", L: "날씨 낱말의 철자를 구별하며 천천히 읽어보려 노력함." }],
-        "W": [{ s: "[쓰기] 날씨 낱말 쓰기", H: "날씨 낱말의 철자를 인지하고 선에 맞게 완벽히 베껴 씀.", M: "배운 날씨 낱말을 기준선에 맞추어 성실하고 바르게 옮겨 적음.", L: "날씨 낱말을 확인하며 옮겨 적기 과제에 집중함." }]
+    "U11": { // How's the Weather?
+        "L": [ 
+            { s: "[어휘 청해] 날씨 관련 낱말 식별하기", H: "여러 가지 날씨를 나타내는 낱말을 듣고 그 의미를 정확히 인지하여 즉각 매칭함.", M: "날씨 관련 낱말을 듣고 알맞은 그림을 바르게 찾아내어 의미를 파악함.", L: "날씨를 나타내는 낱말 소리에 익숙해지려 노력하며 집중하여 들음." },
+            { s: "[구문 이해] 날씨를 묻는 말 파악하기", H: "날씨를 묻고 답하는 대화를 듣고, 화자가 전달하고자 하는 날씨 정보를 완벽히 파악함.", M: "날씨를 묻는 대화를 듣고 현재 날씨가 어떠한지 대체로 바르게 이해함.", L: "날씨를 묻는 의문사 표현에 주의를 기울이며 대화의 의미를 파악하려 노력함." }
+        ],
+        "S": [ 
+            { s: "[정보 교환] 날씨 묻고 답하기", H: "날씨를 묻는 문장(How's the weather?)을 자연스럽게 묻고 현재 날씨에 맞게 유창하게 대답함.", M: "학습한 문형을 활용하여 날씨를 묻고 답하는 기본 대화를 원만히 주고받음.", L: "날씨 낱말을 말하며 몸짓을 섞어 현재 날씨를 표현하려 시도함." } 
+        ],
+        "R": [ 
+            { s: "[어휘 독해] 날씨 관련 낱말 읽기", H: "다양한 날씨 낱말을 시각적으로 인지하여 정확한 발음으로 빠르게 읽어냄.", M: "날씨와 관련된 학습 낱말을 보고 소리 내어 바르게 읽을 수 있음.", L: "날씨를 나타내는 낱말의 철자를 구별하며 한 글자씩 천천히 읽어보려 노력함." } 
+        ],
+        "W": [ 
+            { s: "[철자 쓰기] 날씨 관련 낱말 쓰기", H: "날씨 낱말의 철자를 정확히 인지하고 선과 비율에 맞게 깔끔하게 완벽히 베껴 씀.", M: "배운 날씨 낱말을 기준선에 맞추어 성실하고 바르게 옮겨 적음.", L: "날씨 관련 낱말을 한 글자씩 확인하며 옮겨 적기 과제에 집중함." } 
+        ]
     }
 };
 

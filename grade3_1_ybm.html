@@ -1,0 +1,128 @@
+<!DOCTYPE html> 
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3학년 1학기 평가 (YBM 김혜리)</title>
+    <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css" />
+    <style>
+        :root { --primary: #047857; --accent: #059669; --bg: #f8fafc; --border: #cbd5e1; }
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; font-family: 'Pretendard', sans-serif; }
+        body { background: var(--bg); margin: 0; padding: 15px; color: #334155; line-height: 1.6; }
+        .container { max-width: 900px; margin: auto; background: #ffffff; padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border-top: 6px solid var(--primary); }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 2px solid #e2e8f0; padding-bottom: 15px; }
+        .header h1 { color: var(--primary); font-size: 1.4rem; margin: 0; }
+        .btn-home { background: #f1f5f9; color: #475569; padding: 10px 16px; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.95rem; border: 1px solid var(--border); }
+        .section { margin-bottom: 20px; }
+        .section-title { font-weight: 800; color: var(--primary); margin-bottom: 12px; display: block; }
+        .input-grid { display: grid; gap: 12px; grid-template-columns: 1fr; margin-bottom: 15px; }
+        @media (min-width: 600px) { .input-grid { grid-template-columns: 120px 1.5fr 1fr; } }
+        select, input, textarea { width: 100%; padding: 14px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 1rem; outline: none; transition: 0.2s; }
+        select:focus, input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15); }
+        .level-group { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 15px; }
+        .level-btn { flex: 1; min-width: 30%; padding: 14px; border: 1.5px solid var(--border); background: #fff; border-radius: 8px; cursor: pointer; font-weight: 700; color: #64748b; transition: 0.2s; }
+        .level-btn.active { background: var(--primary); color: #fff; border-color: var(--primary); }
+        .btn-gen { background: var(--accent); color: white; border: none; padding: 18px; width: 100%; border-radius: 10px; font-size: 1.15rem; font-weight: 800; cursor: pointer; margin-top: 10px; }
+        textarea#output { width: 100%; background: #f8fafc; border: 1.5px solid var(--border); height: 140px; font-size: 1.05rem; padding: 15px; border-radius: 8px; resize: none; margin-top: 20px; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>🎒 3학년 1학기 (YBM 김혜리)</h1>
+        <a href="index.html" class="btn-home">메인으로</a>
+    </div>
+
+    <div class="section">
+        <span class="section-title">기본 정보 및 단원 설정</span>
+        <div class="input-grid">
+            <input type="text" id="name" placeholder="학생 성명">
+            <select id="unit" onchange="updateDetails()">
+                <option value="U1">1단원. Hello, I'm Dito. (인사/소개)</option>
+                <option value="U2">2단원. Sit Down, Please. (지시)</option>
+                <option value="U3">3단원. What's This? (사물)</option>
+                <option value="U4">4단원. I Like Pizza. (음식/선호)</option>
+                <option value="U5">5단원. How Many Tigers? (동물/수량)</option>
+                <option value="U6">6단원. Can You Swim? (능력/동작)</option>
+            </select>
+            <select id="domain" onchange="updateDetails()">
+                <option value="L">듣기</option><option value="S">말하기</option><option value="R">읽기</option><option value="W">쓰기</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="section"><span class="section-title">교육과정 세부 성취기준</span><select id="detailList"></select></div>
+
+    <div class="section">
+        <span class="section-title">도입: 성취 수준 판정</span>
+        <div class="level-group">
+            <button class="level-btn active" id="btn-H" onclick="setLvl('H')">매우 우수 (A)</button>
+            <button class="level-btn" id="btn-M" onclick="setLvl('M')">보통/양호 (B)</button>
+            <button class="level-btn" id="btn-L" onclick="setLvl('L')">기초 노력 (C)</button>
+        </div>
+    </div>
+
+    <div class="section">
+        <span class="section-title">전개 및 결론: 관찰 활동 및 정의적 영역</span>
+        <select id="activity" style="margin-bottom: 12px;">
+            <option value="특히, 역할극(Role-play) 상황에서 배운 핵심 구문을 실감 나는 억양으로 응용함.">역할극(Role-play) 응용력 우수</option>
+            <option value="특히, 챈트(Chant)와 노래 부르기 활동에 주도적으로 참여하며 리듬을 체득함.">챈트/노래 리듬감 체득</option>
+            <option value="특히, 교실 놀이와 게임 활동에서 뛰어난 집중력과 순발력을 발휘함.">수업 놀이/게임 참여도 우수</option>
+        </select>
+        <select id="att">
+            <option value="또한, 매 수업에 자기주도적으로 참여하며 오류를 두려워하지 않고 발화하려는 태도가 훌륭함.">자기주도적 및 자신감</option>
+            <option value="또한, 모둠 활동 시 급우들을 배려하고 협력적으로 활동에 임하는 모습이 모범적임.">협력적 태도 및 배려</option>
+        </select>
+    </div>
+
+    <button class="btn-gen" onclick="make()">평가 결과 장문 생성</button>
+    <textarea id="output" readonly></textarea>
+</div>
+
+<script>
+const DB = {
+    "U1": { 
+        "L": [{ s: "[인사] 만남의 인사말 듣기", H: "인사말과 자기소개를 듣고 상황적 맥락을 완벽히 이해함.", M: "인사말을 듣고 대체로 바르게 파악하여 반응함.", L: "인사말의 핵심 소리에 집중하며 상황을 유추함." }],
+        "S": [{ s: "[소통] 자신을 소개하기", H: "자신의 이름을 넣어 자기소개를 당당하고 유창하게 발화함.", M: "I'm ~ 표현을 사용하여 자신을 바르게 소개함.", L: "자신의 이름을 섞어 자기소개 구문을 천천히 따라 말함." }],
+        "R": [{ s: "[문식성] 알파벳 대소문자 읽기", H: "알파벳 대소문자의 형태를 인지하여 정확히 소리 내어 읽음.", M: "대부분의 알파벳 대소문자를 식별하여 읽기 활동에 참여함.", L: "알파벳을 대조하며 천천히 읽어보려 노력함." }],
+        "W": [{ s: "[쓰기] 알파벳 획순에 맞게 쓰기", H: "알파벳의 획순을 숙지하여 대소문자를 매우 정교하게 씀.", M: "기준선을 참고하여 알파벳을 순서에 맞게 씀.", L: "알파벳 쓰기표를 보며 천천히 베껴 씀." }]
+    },
+    "U2": { 
+        "L": [{ s: "[청해] 지시하는 동사 듣기", H: "지시를 나타내는 동사들을 즉각 구별하여 행동함.", M: "기초 지시 동사를 듣고 제스처 없이 의미를 파악함.", L: "지시 낱말의 소리에 주의를 기울이며 반응함." }],
+        "S": [{ s: "[발화] 지시하는 말하기", H: "상대방에게 행동을 지시하는 말을 명확한 억양으로 유창하게 구사함.", M: "학습한 동사를 활용하여 짝에게 지시를 내림.", L: "지시하는 낱말을 소리 내어 말하며 활동에 참여함." }],
+        "R": [{ s: "[독해] 지시 관련 낱말 읽기", H: "지시를 나타내는 동사 낱말을 보고 자연스럽게 읽어냄.", M: "동작 낱말을 소리 내어 읽고 알맞은 그림을 연결함.", L: "알파벳 소리를 단서로 낱말을 천천히 읽어봄." }],
+        "W": [{ s: "[쓰기] 지시 낱말 쓰기", H: "지시 낱말의 철자를 정확히 이해하여 완벽하게 씀.", M: "지시 낱말을 선에 맞추어 깔끔하게 베껴 씀.", L: "단어 카드를 확인하며 옮겨 적기 연습함." }]
+    },
+    "U3": { 
+        "L": [{ s: "[청해] 사물 명칭 듣고 식별하기", H: "사물의 명칭을 듣고 대상을 즉각 찾아내며 정보 처리 능력이 우수함.", M: "친숙한 사물 이름을 듣고 시각 자료와 바르게 연결함.", L: "사물의 명칭을 파악하려고 꾸준히 집중함." }],
+        "S": [{ s: "[소통] 사물 묻고 답하기", H: "사물을 가리키며 묻고 답하는 과정에서 자연스럽게 의사소통함.", M: "학습한 표현으로 짝과 묻고 답하는 활동에 능숙함.", L: "사물의 이름을 말하며 응답하려는 의지를 보임." }],
+        "R": [{ s: "[독해] 사물 관련 낱말 읽기", H: "사물 낱말을 명확하게 구별하고 정확히 읽어냄.", M: "사물을 나타내는 기초 낱말을 식별하여 소리 내어 읽음.", L: "낱말의 첫 글자 모양을 식별하며 천천히 읽으려 함." }],
+        "W": [{ s: "[쓰기] 사물 낱말 베껴 쓰기", H: "사물 낱말의 철자 구성을 인지하여 매우 깔끔하게 씀.", M: "사물을 나타내는 낱말을 기준선에 맞게 성실히 베껴 씀.", L: "낱말 모양을 보고 천천히 옮겨 적으며 연습함." }]
+    },
+    "U4": { 
+        "L": [{ s: "[청해] 음식 낱말 듣고 식별하기", H: "음식의 명칭을 듣고 대상을 즉각적으로 찾아냄.", M: "친숙한 음식의 이름을 듣고 그림 카드와 바르게 연결함.", L: "음식 명칭의 소리에 집중하며 파악하려 함." }],
+        "S": [{ s: "[소통] 선호도(기호) 묻고 답하기", H: "I like 구문을 활용하여 좋아하는 음식을 유창하게 말함.", M: "학습한 표현을 사용하여 좋아하는 음식을 바르게 표현함.", L: "음식 낱말 위주로 대답하며 기호를 표현하려 노력함." }],
+        "R": [{ s: "[독해] 음식 낱말 읽기", H: "음식을 나타내는 낱말을 시각적으로 인지하여 자연스럽게 읽어냄.", M: "음식 낱말 카드를 보고 소리 내어 바르게 읽음.", L: "알파벳 소리를 단서로 음식 이름을 더듬더듬 읽어보려 함." }],
+        "W": [{ s: "[쓰기] 음식 낱말 쓰기", H: "음식 낱말의 철자 체계를 정확히 이해하여 완벽하게 씀.", M: "예시를 참고하여 음식 낱말을 성실하게 적을 수 있음.", L: "단어 카드를 보며 알파벳을 천천히 따라 적음." }]
+    },
+    "U5": { 
+        "L": [{ s: "[청해] 동물/수량 낱말 식별하기", H: "동물과 숫자 낱말을 듣고 해당하는 수량을 즉각 찾아냄.", M: "숫자 소리를 듣고 동물 수량을 대체로 바르게 파악함.", L: "수량 소리에 집중하며 세어보고 구별하려 노력함." }],
+        "S": [{ s: "[소통] 수량 묻고 답하기", H: "How many 구문으로 개수를 묻고 복수형을 살려 자연스럽게 대답함.", M: "대상의 수를 세어보고 영어 숫자로 묻고 답함.", L: "숫자 낱말 위주로 대답하며 수량을 표현하려 함." }],
+        "R": [{ s: "[독해] 동물/숫자 낱말 읽기", H: "동물과 숫자 낱말을 보고 명확히 인지하여 유창하게 읽음.", M: "동물 낱말 카드를 보고 형태를 구별하여 소리 내어 읽음.", L: "낱말의 첫 글자를 단서로 천천히 발음해 보려 노력함." }],
+        "W": [{ s: "[쓰기] 동물/숫자 낱말 쓰기", H: "동물 낱말을 보고 규격에 맞게 형태적 오류 없이 정확히 씀.", M: "동물 낱말을 선에 맞추어 성실하게 베껴 씀.", L: "동물 낱말을 보며 천천히 옮겨 적고 연습함." }]
+    },
+    "U6": { 
+        "L": [{ s: "[청해] 동작/능력 동사 듣기", H: "동작 동사를 듣고 구별하여 해당하는 행동을 즉각 찾아냄.", M: "동작 소리를 듣고 그 의미를 대체로 바르게 구별함.", L: "동작 낱말 소리에 집중하며 행동으로 반응하려 노력함." }],
+        "S": [{ s: "[소통] 능력 묻고 답하기", H: "Can 구문을 활용하여 능력을 묻고 자신 있게 대답함.", M: "자신이 할 수 있는 동작을 묻고 답하는 활동에 능숙함.", L: "동작 낱말 위주로 대답하며 능력을 표현하려 노력함." }],
+        "R": [{ s: "[독해] 능력 관련 낱말 읽기", H: "동작을 나타내는 낱말을 보고 명확히 인지하여 읽음.", M: "능력을 묻는 활동의 낱말 카드를 구별하여 소리 내어 읽음.", L: "동작 낱말의 첫 글자를 단서로 발음해 보려 노력함." }],
+        "W": [{ s: "[쓰기] 동작 낱말 쓰기", H: "동작 낱말을 보고 철자의 순서에 맞게 오류 없이 정확히 씀.", M: "학습한 동작 낱말을 선에 맞추어 성실하게 베껴 씀.", L: "동작 낱말을 보며 천천히 옮겨 적고 연습함." }]
+    }
+};
+
+let curLvl = 'H'; function setLvl(l) { curLvl = l; document.querySelectorAll('.level-btn').forEach(b => b.classList.remove('active')); document.getElementById('btn-'+l).classList.add('active'); }
+function updateDetails() { const u = document.getElementById('unit').value, d = document.getElementById('domain').value, s = document.getElementById('detailList'); s.innerHTML = ""; DB[u][d].forEach((item, i) => s.add(new Option(item.s, i))); }
+function make() { const n = document.getElementById('name').value || "이 학생"; const u = document.getElementById('unit').value, d = document.getElementById('domain').value, i = document.getElementById('detailList').value, act = document.getElementById('activity').value, att = document.getElementById('att').value; document.getElementById('output').value = `${n} 학생은 ${DB[u][d][i][curLvl]} ${act} ${att}`; }
+window.onload = updateDetails;
+</script>
+</body>
+</html>

@@ -8,22 +8,20 @@
     <style>
         /* [미니멀 디자인 시스템 컬러] */
         :root { 
-            --bg-color: #fafafa;         /* 눈이 편안한 밝은 회백색 배경 */
-            --card-bg: #ffffff;          /* 순백색 카드 배경 */
-            --text-dark: #1e293b;        /* 너무 까맣지 않은 부드러운 검은색 */
-            --text-gray: #64748b;        /* 서브 텍스트용 회색 */
-            --border-light: #f1f5f9;     /* 아주 연한 경계선 */
-            --border-accent: #e2e8f0;    /* 호버 시 강조되는 경계선 */
+            --bg-color: #fafafa;         
+            --card-bg: #ffffff;          
+            --text-dark: #1e293b;        
+            --text-gray: #64748b;        
+            --border-light: #f1f5f9;     
+            --border-accent: #e2e8f0;    
             
-            /* 출판사 및 메인 컬러 포인트 (차분한 네이비) */
             --brand-primary: #334155;    
-            --brand-accent: #3b82f6;     
             
             /* 학년별 은은한 파스텔 포인트 컬러 */
-            --g3-color: #10b981; 
-            --g4-color: #0ea5e9; 
-            --g5-color: #f59e0b; 
-            --g6-color: #8b5cf6; 
+            --g3-color: #10b981; /* 에메랄드 */
+            --g4-color: #0ea5e9; /* 스카이블루 */
+            --g5-color: #f59e0b; /* 앰버 */
+            --g6-color: #8b5cf6; /* 퍼플 */
         }
         
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Pretendard', sans-serif; text-decoration: none; -webkit-tap-highlight-color: transparent; }
@@ -35,61 +33,61 @@
             justify-content: center; 
             min-height: 100vh; 
             padding: 50px 20px; 
-            /* 은은한 배경 패턴 (선택사항) */
             background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
             background-size: 20px 20px;
         }
 
-        /* 메인 컨테이너 (폭 제한) */
         .app-wrapper { width: 100%; max-width: 800px; }
 
         /* --- [헤더 영역] --- */
-        .header-section { text-align: center; margin-bottom: 50px; }
+        .header-section { text-align: center; margin-bottom: 40px; }
         .header-badge { display: inline-block; background: #fff; color: var(--text-gray); padding: 6px 14px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; margin-bottom: 16px; border: 1px solid var(--border-accent); letter-spacing: -0.2px; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .header-section h1 { font-size: 2.2rem; font-weight: 800; color: var(--text-dark); letter-spacing: -1px; margin-bottom: 12px; }
         .header-section p { font-size: 1.1rem; color: var(--text-gray); font-weight: 500; }
 
-        /* --- [출판사 선택 (가장 미니멀하게)] --- */
+        /* --- [출판사 선택 (미니멀 Bar)] --- */
         .config-bar { background: var(--card-bg); padding: 12px 24px; border-radius: 16px; display: flex; align-items: center; justify-content: space-between; margin-bottom: 40px; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid var(--border-light); }
-        .config-label { font-weight: 700; color: var(--text-dark); font-size: 1.05rem; }
-        .config-select { border: none; background: #f8fafc; padding: 10px 16px; border-radius: 8px; font-size: 1.05rem; font-weight: 700; color: var(--brand-primary); cursor: pointer; outline: none; transition: 0.2s; }
-        .config-select:focus { background: var(--border-light); }
+        .config-label { font-weight: 800; color: var(--text-dark); font-size: 1.1rem; }
+        .config-select { border: none; background: #f8fafc; padding: 10px 16px; border-radius: 8px; font-size: 1.05rem; font-weight: 700; color: var(--brand-primary); cursor: pointer; outline: none; transition: 0.2s; border: 1px solid var(--border-accent); }
+        .config-select:focus { border-color: var(--brand-primary); }
 
-        /* --- [학년별 카드 그리드 (모바일 1단, PC 2단)] --- */
+        /* --- [학년별 카드 그리드] --- */
         .grid-container { display: grid; grid-template-columns: 1fr; gap: 20px; }
         @media (min-width: 600px) { .grid-container { grid-template-columns: 1fr 1fr; gap: 24px; } }
 
-        /* [개별 학년 카드 스타일] */
         .grade-card { background: var(--card-bg); border-radius: 20px; padding: 24px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border-light); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden; }
         .grade-card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,0.06); border-color: var(--border-accent); }
         
-        /* 카드 좌측에 얇은 컬러 라인 (미니멀 포인트) */
-        .grade-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; }
+        .grade-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; }
         .g3::before { background: var(--g3-color); }
         .g4::before { background: var(--g4-color); }
         .g5::before { background: var(--g5-color); }
         .g6::before { background: var(--g6-color); }
 
-        /* 카드 헤더 (학년 표시) */
         .card-title { font-size: 1.25rem; font-weight: 800; color: var(--text-dark); margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; }
-        .card-title span { font-size: 1.4rem; } /* 이모지 크기 */
+        .card-title span { font-size: 1.4rem; } 
 
-        /* --- [학기 선택 버튼 (애플 스타일)] --- */
+        /* --- [학기 선택 버튼 (전체 활성화)] --- */
         .btn-row { display: flex; gap: 12px; }
-        .action-btn { flex: 1; text-align: center; padding: 14px 0; border-radius: 12px; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: 0.2s; background: #f8fafc; color: var(--text-dark); border: 1px solid transparent; }
-        
-        /* 호버 및 클릭 액션 */
+        .action-btn { flex: 1; text-align: center; padding: 14px 0; border-radius: 12px; font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: 0.2s; }
         .action-btn:active { transform: scale(0.96); }
-        .action-btn:hover { background: #fff; border-color: var(--border-accent); box-shadow: 0 2px 8px rgba(0,0,0,0.04); }
 
-        /* '활성화(작업완료)' 된 3학년 버튼을 학년 컬러로 채움 */
+        /* 3학년 버튼 컬러 */
         .g3 .action-btn { background: rgba(16, 185, 129, 0.08); color: var(--g3-color); border: 1px solid rgba(16, 185, 129, 0.2); }
         .g3 .action-btn:hover { background: var(--g3-color); color: #fff; box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2); }
 
-        /* '비활성화(준비중)' 버튼 */
-        .disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; }
+        /* 4학년 버튼 컬러 */
+        .g4 .action-btn { background: rgba(14, 165, 233, 0.08); color: var(--g4-color); border: 1px solid rgba(14, 165, 233, 0.2); }
+        .g4 .action-btn:hover { background: var(--g4-color); color: #fff; box-shadow: 0 4px 12px rgba(14, 165, 233, 0.2); }
 
-        /* 하단 푸터 */
+        /* 5학년 버튼 컬러 */
+        .g5 .action-btn { background: rgba(245, 158, 11, 0.08); color: var(--g5-color); border: 1px solid rgba(245, 158, 11, 0.2); }
+        .g5 .action-btn:hover { background: var(--g5-color); color: #fff; box-shadow: 0 4px 12px rgba(245, 158, 11, 0.2); }
+
+        /* 6학년 버튼 컬러 */
+        .g6 .action-btn { background: rgba(139, 92, 246, 0.08); color: var(--g6-color); border: 1px solid rgba(139, 92, 246, 0.2); }
+        .g6 .action-btn:hover { background: var(--g6-color); color: #fff; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.2); }
+
         .footer { text-align: center; margin-top: 50px; font-size: 0.9rem; color: var(--text-gray); font-weight: 500; }
     </style>
 </head>
@@ -99,7 +97,7 @@
         
         <header class="header-section">
             <div class="header-badge">2022 개정 교육과정 완벽 반영</div>
-            <h1>교과학습발달상황 시스템</h1>
+            <h1>영어 교과학습발달상황 시스템</h1>
             <p>장학사급 세부 평가 역량 기반 원클릭 생성기</p>
         </header>
 
@@ -124,24 +122,24 @@
             <article class="grade-card g4">
                 <div class="card-title">4학년 (4th Grade) <span>📘</span></div>
                 <div class="btn-row">
-                    <button class="action-btn disabled">1학기 준비중</button>
-                    <button class="action-btn disabled">2학기 준비중</button>
+                    <button class="action-btn" onclick="goToPage(4, 1)">1학기 평가</button>
+                    <button class="action-btn" onclick="goToPage(4, 2)">2학기 평가</button>
                 </div>
             </article>
 
             <article class="grade-card g5">
                 <div class="card-title">5학년 (5th Grade) <span>📙</span></div>
                 <div class="btn-row">
-                    <button class="action-btn disabled">1학기 준비중</button>
-                    <button class="action-btn disabled">2학기 준비중</button>
+                    <button class="action-btn" onclick="goToPage(5, 1)">1학기 평가</button>
+                    <button class="action-btn" onclick="goToPage(5, 2)">2학기 평가</button>
                 </div>
             </article>
 
             <article class="grade-card g6">
                 <div class="card-title">6학년 (6th Grade) <span>🎓</span></div>
                 <div class="btn-row">
-                    <button class="action-btn disabled">1학기 준비중</button>
-                    <button class="action-btn disabled">2학기 준비중</button>
+                    <button class="action-btn" onclick="goToPage(6, 1)">1학기 평가</button>
+                    <button class="action-btn" onclick="goToPage(6, 2)">2학기 평가</button>
                 </div>
             </article>
 
@@ -157,6 +155,7 @@
     <script>
         function goToPage(grade, term) {
             const pub = document.getElementById('publisher').value;
+            // 예: grade4_1_ybm.html 로 자동 이동
             window.location.href = `grade${grade}_${term}_${pub}.html`;
         }
     </script>
